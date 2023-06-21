@@ -57,9 +57,9 @@ load_u-boot_setting() {
     then
         if ! grep -q "^U_BOOT_PARAMETERS" "/userdata/u-boot"
         then
-            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/etc/kernel/cmdline\")\"" >> "/userdata/u-boot"
+            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/boot/cmdline\")\"" >> "/userdata/u-boot"
         fi
-        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /etc/kernel/cmdline)\"|g" "/userdata/u-boot"
+        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /boot/cmdline)\"|g" "/userdata/u-boot"
     fi
 
     # shellcheck source=/dev/null
@@ -67,7 +67,7 @@ load_u-boot_setting() {
 
     if [[ -z "${U_BOOT_FDT_OVERLAYS_DIR:-}" ]]
     then
-        eval "$(grep "^U_BOOT_FDT_OVERLAYS_DIR" "$(which u-boot-update)")"
+		eval "$(grep "^U_BOOT_FDT_OVERLAYS_DIR" "$(command -v u-boot-update)")"
         U_BOOT_FDT_OVERLAYS_DIR="${U_BOOT_FDT_OVERLAYS_DIR:-}"
     fi
 }
