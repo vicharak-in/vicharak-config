@@ -1,4 +1,4 @@
-PROJECT ?= rsetup
+PROJECT ?= vicharak-config
 PREFIX ?= /usr
 BINDIR ?= $(PREFIX)/bin
 LIBDIR ?= $(PREFIX)/lib
@@ -13,10 +13,10 @@ all: build
 
 .PHONY: run
 run:
-	src/usr/bin/rsetup
+	src/usr/bin/vicharak-config
 
 .PHONY: debug
-debug: sudo bash -c "DEBUG=true /usr/bin/rsetup"
+debug: sudo bash -c "DEBUG=true /usr/bin/vicharak-config"
 
 .PHONY: shell
 shell: bash
@@ -26,7 +26,7 @@ shell: bash
 #
 .PHONY: test
 test:
-	find src -type f \( -name "*.sh" -o -name "rsetup" \) -exec shellcheck --source-path=./src --external-sources {} +
+	find src -type f \( -name "*.sh" -o -name "vicharak-config" \) -exec shellcheck --source-path=./src --external-sources {} +
 
 #
 # Build

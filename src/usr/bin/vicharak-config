@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if (( EUID != 0 ))
-then
-    exec sudo "$0" "$@"
-fi
-
 set -euo pipefail
 shopt -s nullglob
 
@@ -14,12 +9,24 @@ LANGUAGE="C"
 
 DEBUG="${DEBUG:-false}"
 
-source "/usr/lib/vicharak-config/cli/main.sh"
+if git status &>/dev/null && [[ -f "$PWD/usr/bin/vicharak-config" ]]
+then
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
+else
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}/src"
+    #ROOT_PATH="${ROOT_PATH:-}"
+fi
+
+source "$ROOT_PATH/usr/lib/vicharak-config/cli/main.sh"
 
 VICHARAK_CONFIG_EXEC_NAME="$(basename "$0")"
 if (( $# == 0 )) && [[ "$VICHARAK_CONFIG_EXEC_NAME" == "vicharak-config" ]]
 then
-    source "/usr/lib/vicharak-config/tui/main.sh"
+    if (( EUID != 0 ))
+    then
+        exec sudo "$0" "$@"
+    fi
+    source "$ROOT_PATH/usr/lib/vicharak-config/tui/main.sh"
     tui_start __tui_main
 else
     if [[ "$VICHARAK_CONFIG_EXEC_NAME" == "vicharak-config" ]]
@@ -30,5 +37,5 @@ else
         __parameter_type_check "__$VICHARAK_CONFIG_EXEC_NAME" "function"
         "__$VICHARAK_CONFIG_EXEC_NAME" "$@"
     fi
-    
+
 fi

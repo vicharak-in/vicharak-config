@@ -1,12 +1,12 @@
-# rsetup
+# vicharak-config
 
-[![Build & Release](https://github.com/radxa-pkg/rsetup/actions/workflows/release.yml/badge.svg)](https://github.com/radxa-pkg/rsetup/actions/workflows/release.yml)
+[![Build & Release](https://github.com/vicharak-in/vicharak-config/actions/workflows/release.yml/badge.svg)](https://github.com/vicharak-in/vicharak-config/actions/workflows/release.yml)
 
-Radxa system setup utility
+Vicharak system setup utility
 
 ## Usage
 
-Run `rsetup` to launch the user interface.
+Run `vicharak-config` to launch the user interface.
 
 ## Development dependencies
 
@@ -59,9 +59,9 @@ sudo apt-get install git-buildpackage
 
 ## Developer commands
 
-`make run`: run local version of rsetup
+`make run`: run local version of vicharak-config
 
-`make debug`: run local version of rsetup in debug mode
+`make debug`: run local version of vicharak-config in debug mode
 
 `make test`: run ShellCheck
 

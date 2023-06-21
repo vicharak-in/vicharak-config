@@ -1,10 +1,10 @@
 [Unit]
-Description=rsetup configuration service
-Documentation=https://github.com/radxa-pkg/rsetup/
+Description=vicharak-config system service
+Documentation=https://github.com/vicharak-in/vicharak-config/
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/rsetup __on_boot
+ExecStart=/usr/bin/vicharak-config __on_boot
 
 [Install]
 WantedBy=multi-user.target

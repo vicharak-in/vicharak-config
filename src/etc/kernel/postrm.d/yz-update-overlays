@@ -14,21 +14,21 @@ LANGUAGE="C"
 
 DEBUG="${DEBUG:-false}"
 
-source "/usr/lib/rsetup/cli/main.sh"
+source "/usr/lib/vicharak-config/cli/main.sh"
 
-RSETUP_EXEC_NAME="$(basename "$0")"
-if (( $# == 0 )) && [[ "$RSETUP_EXEC_NAME" == "rsetup" ]]
+VICHARAK_CONFIG_EXEC_NAME="$(basename "$0")"
+if (( $# == 0 )) && [[ "$VICHARAK_CONFIG_EXEC_NAME" == "vicharak-config" ]]
 then
-    source "/usr/lib/rsetup/tui/main.sh"
+    source "/usr/lib/vicharak-config/tui/main.sh"
     tui_start __tui_main
 else
-    if [[ "$RSETUP_EXEC_NAME" == "rsetup" ]]
+    if [[ "$VICHARAK_CONFIG_EXEC_NAME" == "vicharak-config" ]]
     then
         __parameter_type_check "$1" "function"
         "$@"
     else
-        __parameter_type_check "__$RSETUP_EXEC_NAME" "function"
-        "__$RSETUP_EXEC_NAME" "$@"
+        __parameter_type_check "__$VICHARAK_CONFIG_EXEC_NAME" "function"
+        "__$VICHARAK_CONFIG_EXEC_NAME" "$@"
     fi
     
 fi

@@ -1,7 +1,7 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: rsetup
-Source: https://github.com/radxa-pkg/rsetup
- 
+Upstream-Name: vicharak-config
+Source: https://github.com/vicharak-in/vicharak-config
+
 Files: *
 Copyright: © 2022 Vicharak Computers LLP
 License: GPL-3+

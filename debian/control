@@ -1,4 +1,4 @@
-Source: rsetup
+Source: vicharak-config
 Maintainer: "Vicharak Computers LLP" <utsavbalar1231@gmail.com>
 Section: admin
 Priority: standard
@@ -9,7 +9,7 @@ Build-Depends: debhelper (>=12~),
                pandoc,
                shellcheck,
 
-Package: rsetup
+Package: vicharak-config
 Architecture: all
 Section: admin
 Priority: standard
@@ -19,7 +19,7 @@ Depends: device-tree-compiler,
          whiptail,
          yq,
          ${misc:Depends},
-Description: Radxa system setup utility
- Radxa system setup utility (rsetup) provides an user friendly menu to
+Description: Vicharak system setup utility
+ Vicharak system setup utility (vicharak-config) provides an user friendly menu to
  perform many essential system configuration tasks. It also provides
  an on-boot configuration service to allow customization.
