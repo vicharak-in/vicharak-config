@@ -37,33 +37,33 @@ Please only enable one of them."
 }
 
 load_u-boot_setting() {
-    if [[ ! -e "/etc/default/u-boot" ]]
+    if [[ ! -e "/userdata/u-boot" ]]
     then
-        touch "/etc/default/u-boot"
+        touch "/userdata/u-boot"
     fi
 
     # shellcheck source=/dev/null
-    source "/etc/default/u-boot"
+    source "/userdata/u-boot"
 
     if [[ -z "${U_BOOT_TIMEOUT:-}" ]]
     then
-        if ! grep -q "^U_BOOT_TIMEOUT" "/etc/default/u-boot"
+        if ! grep -q "^U_BOOT_TIMEOUT" "/userdata/u-boot"
         then
-            echo 'U_BOOT_TIMEOUT="10"' >> "/etc/default/u-boot"
+            echo 'U_BOOT_TIMEOUT="10"' >> "/userdata/u-boot"
         fi
-        sed -i "s/^U_BOOT_TIMEOUT=.*/U_BOOT_TIMEOUT=\"10\"/g" "/etc/default/u-boot"
+        sed -i "s/^U_BOOT_TIMEOUT=.*/U_BOOT_TIMEOUT=\"10\"/g" "/userdata/u-boot"
     fi
     if [[ -z "${U_BOOT_PARAMETERS:-}" ]]
     then
-        if ! grep -q "^U_BOOT_PARAMETERS" "/etc/default/u-boot"
+        if ! grep -q "^U_BOOT_PARAMETERS" "/userdata/u-boot"
         then
-            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/etc/kernel/cmdline\")\"" >> "/etc/default/u-boot"
+            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/etc/kernel/cmdline\")\"" >> "/userdata/u-boot"
         fi
-        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /etc/kernel/cmdline)\"|g" "/etc/default/u-boot"
+        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /etc/kernel/cmdline)\"|g" "/userdata/u-boot"
     fi
 
     # shellcheck source=/dev/null
-    source "/etc/default/u-boot"
+    source "/userdata/u-boot"
 
     if [[ -z "${U_BOOT_FDT_OVERLAYS_DIR:-}" ]]
     then

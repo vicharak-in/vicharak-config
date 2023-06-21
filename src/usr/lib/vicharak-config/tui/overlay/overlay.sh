@@ -256,7 +256,7 @@ Otherwise, select No to go back to previous menu."
     if [[ -n "${U_BOOT_FDT_OVERLAYS:-}" ]]
     then
         msgbox \
-"Detected 'U_BOOT_FDT_OVERLAYS' in '/etc/default/u-boot'.
+"Detected 'U_BOOT_FDT_OVERLAYS' in '/userdata/u-boot'.
 This usually happens when you want to customize your boot process.
 To avoid potential conflicts, overlay feature is temporarily disabled until such customization is reverted."
         return
