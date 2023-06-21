@@ -1,8 +1,8 @@
 # shellcheck shell=bash
 
 config_transaction_start() {
-    RBUILD_CONFIG="/config/config.txt.new"
-    cp /config/config.txt "$RBUILD_CONFIG"
+    RBUILD_CONFIG="/userdata/config.txt.new"
+    cp /userdata/config.txt "$RBUILD_CONFIG"
 }
 
 config_transaction_abort() {
@@ -11,8 +11,8 @@ config_transaction_abort() {
 }
 
 config_transaction_commit() {
-    cp /config/config.txt /config/config.txt.old
-    mv "$RBUILD_CONFIG" /config/config.txt
+    cp /userdata/config.txt /userdata/config.txt.old
+    mv "$RBUILD_CONFIG" /userdata/config.txt
     unset RBUILD_CONFIG
 }
 
