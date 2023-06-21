@@ -23,7 +23,7 @@ fi
 __tui_about() {
     msgbox "rsetup - Radxa system setup utility
 
-Copyright 2022-$(date +%Y) Radxa Computer Co., Ltd"
+Copyright 2022-$(date +%Y) Vicharak Computers LLP"
 }
 
 __tui_main() {
