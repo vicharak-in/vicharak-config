@@ -3,6 +3,8 @@ source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
 
 ALLOWED_RCONFIG_FUNC+=("load_u-boot_setting")
 
+U_BOOT_FDT_OVERLAYS_DIR="/boot/overlay"
+
 check_overlay_conflict_init() {
     VICHARAK_CONFIG_OVERLAY_RESOURCES=()
     VICHARAK_CONFIG_OVERLAY_RESOURCE_OWNER=()
@@ -64,12 +66,6 @@ load_u-boot_setting() {
 
     # shellcheck source=/dev/null
     source "/userdata/u-boot"
-
-    if [[ -z "${U_BOOT_FDT_OVERLAYS_DIR:-}" ]]
-    then
-		eval "$(grep "^U_BOOT_FDT_OVERLAYS_DIR" "$(command -v u-boot-update)")"
-        U_BOOT_FDT_OVERLAYS_DIR="${U_BOOT_FDT_OVERLAYS_DIR:-}"
-    fi
 }
 
 disable_overlays() {
