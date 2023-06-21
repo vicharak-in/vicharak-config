@@ -11,25 +11,15 @@ all: build
 # Development
 #
 
-.PHONY: overlay
-overlay:
-	$(eval OVERLAY_DIR := $(shell mktemp -d))
-	sudo mount -t overlay overlay -o lowerdir=/:./src:./overlay $(OVERLAY_DIR)
-	sudo systemd-nspawn --link-journal no -D $(OVERLAY_DIR) $(OVERLAY_CMD) || true
-	sudo umount $(OVERLAY_DIR)
-	rmdir $(OVERLAY_DIR)
-
 .PHONY: run
-run: OVERLAY_CMD := rsetup
-run: overlay
+run:
+	src/usr/bin/rsetup
 
 .PHONY: debug
-debug: OVERLAY_CMD := bash -c "DEBUG=true /usr/bin/rsetup"
-debug: overlay
+debug: sudo bash -c "DEBUG=true /usr/bin/rsetup"
 
 .PHONY: shell
-shell: OVERLAY_CMD := bash
-shell: overlay
+shell: bash
 
 #
 # Test

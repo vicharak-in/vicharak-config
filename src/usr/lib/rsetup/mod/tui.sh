@@ -1,10 +1,16 @@
 # shellcheck shell=bash
+if git status &>/dev/null && [[ -f "$PWD/usr/bin/rsetup" ]]
+then
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
+else
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
+fi
 
-source "/usr/lib/rsetup/mod/dialog/basic.sh"
-source "/usr/lib/rsetup/mod/dialog/menu.sh"
-source "/usr/lib/rsetup/mod/dialog/checklist.sh"
-source "/usr/lib/rsetup/mod/dialog/radiolist.sh"
-source "/usr/lib/rsetup/mod/dialog/select.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/dialog/basic.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/dialog/menu.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/dialog/checklist.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/dialog/radiolist.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/dialog/select.sh"
 
 RSETUP_SCREEN=()
 

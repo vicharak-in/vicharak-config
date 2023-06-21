@@ -9,7 +9,15 @@ LANGUAGE="C"
 
 DEBUG="${DEBUG:-false}"
 
-source "/usr/lib/rsetup/cli/main.sh"
+if git status &>/dev/null && [[ -f "$PWD/usr/bin/rsetup" ]]
+then
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
+else
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}/src"
+    #ROOT_PATH="${ROOT_PATH:-}"
+fi
+
+source "$ROOT_PATH/usr/lib/rsetup/cli/main.sh"
 
 RSETUP_EXEC_NAME="$(basename "$0")"
 if (( $# == 0 )) && [[ "$RSETUP_EXEC_NAME" == "rsetup" ]]
@@ -18,7 +26,7 @@ then
     then
         exec sudo "$0" "$@"
     fi
-    source "/usr/lib/rsetup/tui/main.sh"
+    source "$ROOT_PATH/usr/lib/rsetup/tui/main.sh"
     tui_start __tui_main
 else
     if [[ "$RSETUP_EXEC_NAME" == "rsetup" ]]
@@ -29,5 +37,5 @@ else
         __parameter_type_check "__$RSETUP_EXEC_NAME" "function"
         "__$RSETUP_EXEC_NAME" "$@"
     fi
-    
+
 fi

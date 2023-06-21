@@ -1,6 +1,5 @@
 # shellcheck shell=bash
-
-source "/usr/lib/rsetup/mod/overlay.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/overlay.sh"
 
 ALLOWED_RCONFIG_FUNC+=("load_u-boot_setting")
 
@@ -97,7 +96,7 @@ __reset_overlays_worker() {
 reset_overlays() {
     load_u-boot_setting
 
-    local version="$1" vendor="$2" dtbos i 
+    local version="$1" vendor="$2" dtbos i
     local old_overlays new_overlays enabled_overlays=()
     old_overlays="$(realpath "$U_BOOT_FDT_OVERLAYS_DIR")"
     new_overlays="${old_overlays}_new"

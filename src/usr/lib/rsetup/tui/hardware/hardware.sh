@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-source "/usr/lib/rsetup/mod/config.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/config.sh"
 
 __hardware_gstreamer_test() {
     local temp
@@ -186,7 +186,7 @@ Please check if the screen is connected and powered on."
         xrandr_cmd+=( --rotate left )
         dsi_res="${dsi_native_res_y}x${dsi_native_res_x}"
     fi
-    
+
     for i in "${selected_external[@]}"
     do
         xrandr_cmd+=( --output "$i" )
@@ -196,7 +196,7 @@ Please check if the screen is connected and powered on."
         --scale-from "$dsi_res"
         --same-as "$selected_dsi"
     )
-    
+
     "${xrandr_cmd[@]}"
 
     radxa-map-tp

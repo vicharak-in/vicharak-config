@@ -1,7 +1,6 @@
 # shellcheck shell=bash
-
-source "/usr/lib/rsetup/mod/block_helpers.sh"
-source "/usr/lib/rsetup/mod/hwid.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/block_helpers.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/hwid.sh"
 
 ALLOWED_RCONFIG_FUNC+=("update_hostname" "update_locale" "enable_service" "disable_service" "resize_root" "set_thermal_governor" "set_led_trigger")
 

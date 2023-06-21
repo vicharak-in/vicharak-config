@@ -1,8 +1,7 @@
 # shellcheck shell=bash
-
-source "/usr/lib/rsetup/mod/hwid.sh"
-source "/usr/lib/rsetup/mod/pkg.sh"
-source "/usr/lib/rsetup/mod/overlay.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/hwid.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/pkg.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/mod/overlay.sh"
 
 __overlay_install() {
     if ! __depends_package "gcc" "linux-headers-$(uname -r)"

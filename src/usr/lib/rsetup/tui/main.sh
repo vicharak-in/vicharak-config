@@ -1,18 +1,23 @@
 # shellcheck shell=bash
+if git status &>/dev/null && [[ -f "$PWD/usr/bin/rsetup" ]]
+then
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
+else
+    ROOT_PATH="${ROOT_PATH:-}"
+fi
+source "${ROOT_PATH}/usr/lib/rsetup/mod/tui.sh"
 
-source "/usr/lib/rsetup/mod/tui.sh"
-
-source "/usr/lib/rsetup/tui/overlay/overlay.sh"
-source "/usr/lib/rsetup/tui/comm/comm.sh"
-source "/usr/lib/rsetup/tui/hardware/hardware.sh"
-source "/usr/lib/rsetup/tui/local/local.sh"
-source "/usr/lib/rsetup/tui/system/system.sh"
-source "/usr/lib/rsetup/tui/task/task.sh"
-source "/usr/lib/rsetup/tui/user/user.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/tui/overlay/overlay.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/tui/comm/comm.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/tui/hardware/hardware.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/tui/local/local.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/tui/system/system.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/tui/task/task.sh"
+source "${ROOT_PATH}/usr/lib/rsetup/tui/user/user.sh"
 
 if $DEBUG
 then
-    source "/usr/lib/rsetup/tui/test/test.sh"
+    source "${ROOT_PATH}/usr/lib/rsetup/tui/test/test.sh"
 fi
 
 __tui_about() {
