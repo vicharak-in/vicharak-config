@@ -17,7 +17,6 @@ Depends: device-tree-compiler,
          gdisk,
          parted,
          whiptail,
-         yq,
          ${misc:Depends},
 Description: Vicharak system setup utility
  Vicharak system setup utility (vicharak-config) provides an
