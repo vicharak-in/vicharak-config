@@ -74,7 +74,7 @@ process_config() {
 __on_boot() {
     __parameter_count_check 0 "$@"
 
-    local conf_dir="/config"
+    local conf_dir="/userdata"
 
     for i in "$conf_dir/before.txt" "$conf_dir/config.txt" "$conf_dir/after.txt"
     do
