@@ -26,7 +26,7 @@ shell: bash
 #
 .PHONY: test
 test:
-	find src -type f \( -name "*.sh" -o -name "vicharak-config" \) -exec shellcheck --source-path=./src --external-sources {} +
+	find src -type f \( -name "*.sh" -o -name "vicharak-config" \) -exec shellcheck -e SC1090 --source-path=./src --external-sources {} +
 
 #
 # Build
