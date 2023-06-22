@@ -1,4 +1,6 @@
 # shellcheck shell=bash
+# shellcheck source=src/usr/lib/vicharak-config/mod/path.sh
+#
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
 
 ALLOWED_RCONFIG_FUNC+=("load_u-boot_setting")

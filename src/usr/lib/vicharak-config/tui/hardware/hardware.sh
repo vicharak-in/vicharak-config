@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+# shellcheck source=src/usr/lib/vicharak-config/mod/path.sh
 
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/config.sh"
 

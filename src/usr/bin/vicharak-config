@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck source=src/usr/lib/vicharak-config/mod/path.sh
 
 set -euo pipefail
 shopt -s nullglob
@@ -9,14 +10,7 @@ LANGUAGE="C"
 
 DEBUG="${DEBUG:-false}"
 
-if git status &>/dev/null && [[ -f "$PWD/usr/bin/vicharak-config" ]]
-then
-    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
-else
-    ROOT_PATH="${ROOT_PATH:-"$PWD"}/src"
-    #ROOT_PATH="${ROOT_PATH:-}"
-fi
-
+source "src/usr/lib/vicharak-config/mod/path.sh"
 source "$ROOT_PATH/usr/lib/vicharak-config/cli/main.sh"
 
 VICHARAK_CONFIG_EXEC_NAME="$(basename "$0")"

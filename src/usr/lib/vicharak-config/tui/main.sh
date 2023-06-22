@@ -1,10 +1,6 @@
 # shellcheck shell=bash
-if git status &>/dev/null && [[ -f "$PWD/usr/bin/vicharak-config" ]]
-then
-    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
-else
-    ROOT_PATH="${ROOT_PATH:-}"
-fi
+# shellcheck source=src/usr/lib/vicharak-config/mod/path.sh
+
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/tui.sh"
 
 source "${ROOT_PATH}/usr/lib/vicharak-config/tui/overlay/overlay.sh"

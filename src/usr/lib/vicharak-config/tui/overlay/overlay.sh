@@ -1,4 +1,6 @@
 # shellcheck shell=bash
+# shellcheck source=src/usr/lib/vicharak-config/mod/path.sh
+
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/hwid.sh"
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/pkg.sh"
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
