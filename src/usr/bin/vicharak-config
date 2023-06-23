@@ -9,9 +9,9 @@ LANGUAGE="C"
 
 DEBUG="${DEBUG:-false}"
 
-if git status &>/dev/null && [[ -f "$PWD/usr/bin/vicharak-config" ]]
+if git status &>/dev/null && [[ -f "$PWD/src/usr/bin/vicharak-config" ]]
 then
-    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}/src"
 else
     ROOT_PATH="${ROOT_PATH:-}"
 fi
