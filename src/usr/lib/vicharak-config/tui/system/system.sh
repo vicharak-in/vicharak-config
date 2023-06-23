@@ -28,9 +28,9 @@ Are you sure you want to update the bootloader?"
 
     local pid
     pid="$(get_product_id)"
-    for i in /usr/lib/u-boot/"$pid"*
+    for i in /userdata/"$pid"*
     do
-        radiolist_add "${i##/usr/lib/u-boot/}" "OFF"
+        radiolist_add "${i##/userdata/}" "OFF"
     done
     radiolist_emptymsg "No compatible bootloader is available."
 
@@ -74,9 +74,9 @@ Are you sure you want to update the bootloader?"
 
     local pid ret
     pid="$(get_product_id)"
-    for i in /usr/lib/u-boot/"$pid"*
+    for i in /userdata/"$pid"*
     do
-        radiolist_add "${i##/usr/lib/u-boot/}" "OFF"
+        radiolist_add "${i##/userdata/}" "OFF"
     done
     radiolist_emptymsg "No compatible bootloader is available."
 
@@ -120,9 +120,9 @@ Are you sure you want to update the bootloader?"
 
     local pid
     pid="$(get_product_id)"
-    for i in /usr/lib/u-boot/"$pid"*
+    for i in /userdata/"$pid"*
     do
-        radiolist_add "${i##/usr/lib/u-boot/}" "OFF"
+        radiolist_add "${i##/userdata/}" "OFF"
     done
     radiolist_emptymsg "No compatible bootloader is available."
 
@@ -151,7 +151,7 @@ __system() {
     menu_init
     menu_add __system_system_update "System Update"
     menu_add __system_update_bootloader "Update Bootloader"
-    menu_add __system_update_spinor "Update SPI Bootloader"
-    menu_add __system_update_emmc_boot "Update eMMC Boot partition"
+    #menu_add __system_update_spinor "Update SPI Bootloader"
+    #menu_add __system_update_emmc_boot "Update eMMC U-Boot partition"
     menu_show "System Maintaince"
 }
