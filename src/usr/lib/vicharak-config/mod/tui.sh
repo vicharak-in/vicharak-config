@@ -3,7 +3,7 @@ if git status &>/dev/null && [[ -f "$PWD/usr/bin/vicharak-config" ]]
 then
     ROOT_PATH="${ROOT_PATH:-"$PWD"}"
 else
-    ROOT_PATH="${ROOT_PATH:-"$PWD"}"
+    ROOT_PATH="${ROOT_PATH:-}"
 fi
 
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/basic.sh"
