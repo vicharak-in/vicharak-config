@@ -1,3 +1,12 @@
+vicharak-config (0.0.2) jammy; urgency=medium
+
+  [ UtsavBalar1231 ]
+  * Added support for uboot upgrade
+  * Added support for Mali GPU configuration
+  * Several Bug fixes
+
+ -- "UtsavBalar1231" <utsavbalar1231@gmail.com>  Mon, 26 Jun 2023 16:47:31 +0000
+
 vicharak-config (0.0.1) jammy; urgency=medium
 
   [ UtsavBalar1231 ]
