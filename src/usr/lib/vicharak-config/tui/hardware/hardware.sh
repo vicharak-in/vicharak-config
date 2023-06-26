@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+# shellcheck disable=SC1090
 
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/config.sh"
 

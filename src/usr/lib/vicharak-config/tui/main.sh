@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+# shellcheck disable=SC1090
 
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/tui.sh"
 
@@ -27,6 +28,7 @@ __tui_main() {
     menu_add __hardware "Hardware"
     menu_add __overlay "Overlays"
     menu_add __comm "Connectivity"
+    menu_add __task "Tasks"
     menu_add __user "User Settings"
     menu_add __local "Localization"
     if $DEBUG
