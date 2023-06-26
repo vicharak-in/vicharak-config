@@ -85,9 +85,3 @@ jobs:
             ## Changelog for ${{ env.version }}
             ${{ env.changes }}
           append_body: true
-      - name: Update Test repos
-        if: env.distro != 'UNRELEASED'
-        uses: radxa-repo/update-repo-action@main
-        with:
-          test-repo: true
-          token: ${{ secrets.RADXA_APT_TEST_REPO_TOKEN }}
