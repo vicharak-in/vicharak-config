@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-ALLOWED_RCONFIG_FUNC+=("add_user" "update_password" "user_append_group")
+ALLOWED_RCONFIG_FUNC+=("add_user" "update_password" "user_append_group" "remove_user")
 
 add_user() {
     local username="$1"
@@ -32,4 +32,12 @@ user_append_group() {
     local group="$2"
 
     usermod -aG "$group" "$username"
+}
+
+remove_user() {
+	__parameter_count_check 1 "$@"
+
+	local username="$1"
+
+	userdel -r "$username"
 }
