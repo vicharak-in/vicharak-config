@@ -1,39 +1,39 @@
 # shellcheck shell=bash
 
 __task_gpu_uninstall() {
-	echo "Uninstalling Mali gpu..." 2>&1 | tee -a "test"
-	if yesno "Are you sure to uninstall Mali gpu?"; then
+	echo "Uninstalling Rockchip Mali gpu..." 2>&1 | tee -a "test"
+	if yesno "Are you sure to uninstall Rockchip Mali gpu?"; then
 		if uninstall_gpu; then
-			msgbox "Uninstall Mali gpu success."
+			msgbox "Uninstall Rockchip Mali gpu success."
 		else
-			msgbox "Uninstall Mali gpu failure."
+			msgbox "Uninstall Rockchip Mali gpu failure."
 		fi
 	fi
 }
 
 __task_gpu_install() {
 	echo "Installing Mali gpu..." 2>&1 | tee -a "test"
-	if yesno "Are you sure to install Mali gpu?"; then
+	if yesno "Are you sure to install Rockchip Mali gpu library?"; then
 		install_gpu
 	fi
 }
 
-__task_gpu_enable() {
-	if yesno "Are you sure to enable Mali gpu?"; then
-		if enable_gpu; then
-			msgbox "Enable Mali gpu success."
+__task_gpu_enable_opengl() {
+	if yesno "Are you sure to enable OpenGL support for Rockchip Mali gpu?"; then
+		if enable_gpu_opengl; then
+			msgbox "Enabled OpenGL support for Rockchip Mali gpu.\n\nUse 'gl4es' prefix to run OpenGL applications."
 		else
-			msgbox "Enable Mali gpu failure."
+			msgbox "Failed to enable OpenGL support for Rockchip Mali gpu."
 		fi
 	fi
 }
 
-__task_gpu_disable() {
-	if yesno "Are you sure to enable Mali gpu?"; then
-		if disable_gpu; then
-			msgbox "Disable Mali gpu success."
+__task_gpu_disable_opengl() {
+	if yesno "Are you sure to disable OpenGL support for Rockchip Mali gpu?"; then
+		if disable_gpu_opengl; then
+			msgbox "Disabled OpenGL support for Rockchip Mali gpu."
 		else
-			msgbox "Disable Mali gpu failure."
+			msgbox "Failed to disable OpenGL support for Rockchip Mali gpu."
 		fi
 	fi
 }
@@ -42,15 +42,15 @@ __task_gpu() {
 	menu_init
 
 	if apt list --installed | grep -q "libmali"; then
-		menu_add __task_gpu_uninstall "Uninstall Mali gpu"
+		menu_add __task_gpu_uninstall "Uninstall Rockchip Mali gpu"
 	else
-		menu_add __task_gpu_install "Install Mali gpu"
+		menu_add __task_gpu_install "Install Rockchip Mali gpu"
 	fi
 
-	if grep -q "gl4es" /etc/environment; then
-		menu_add __task_gpu_disable "Disable Mali gpu"
+	if [ -f /usr/bin/gl4es ]; then
+		menu_add __task_gpu_disable_opengl "Disable OpenGL support for Rockchip Mali gpu"
 	else
-		menu_add __task_gpu_enable "Enable Mali gpu"
+		menu_add __task_gpu_enable_opengl "Enable OpenGL support for Rockchip Mali gpu"
 	fi
 
 	menu_show "Please select an option below:"

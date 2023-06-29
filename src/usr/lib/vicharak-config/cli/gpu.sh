@@ -1,6 +1,5 @@
 # shellcheck shell=bash
-
-PATH_GL4ES="/usr/lib/gl4es"
+# shellcheck disable=SC2154
 
 uninstall_gpu() {
 	__parameter_count_check 0 "$@"
@@ -13,76 +12,44 @@ uninstall_gpu() {
 		fi
 		apt purge "$line" -y
 	done <<<"$lib_mali"
+
+	sed -i 's/none/always/g' /etc/X11/xorg.conf.d/20-modesetting.conf
 }
 
 install_gpu() {
 	__parameter_count_check 0 "$@"
 	apt install /userdata/gpu/*.deb || true
+
+	sed -i 's/always/none/g' /etc/X11/xorg.conf.d/20-modesetting.conf
 }
 
-fixup_ld_library_path() {
-	# remove colon at the end if it exists
-	ld_library_path=${1%:}
-
-	# remove colon at the beginning if it exists
-	ld_library_path=${ld_library_path#:}
-}
-
-enable_gpu() {
+enable_gpu_opengl() {
 	__parameter_count_check 0 "$@"
 
-	if [ -d "$PATH_GL4ES" ]; then
-		if grep -q "LD_LIBRARY_PATH=" /etc/environment; then
-			ld_library_path=$(grep "LD_LIBRARY_PATH" /etc/environment | sed 's/export LD_LIBRARY_PATH=//g')
-			ld_library_path="$PATH_GL4ES:$ld_library_path"
+	# shellcheck disable=SC2016
+	echo '
+#!/bin/bash
 
-			# fixup LD_LIBRARY_PATH
-			fixup_ld_library_path "$ld_library_path"
+shopt -s nullglob
 
-			sed -i "/LD_LIBRARY_PATH/d" /etc/environment
-		else
-			ld_library_path="$PATH_GL4ES"
-		fi
+for path in /usr/lib/*/gl4es; do
+	export LD_LIBRARY_PATH="${path}:${LD_LIBRARY_PATH}"
+done
 
-		echo "export LD_LIBRARY_PATH=$ld_library_path" >>/etc/environment
-		source /etc/environment
+exec "$@"
+' >/usr/bin/gl4es
 
-		# Enable GL4ES library inside /etc/ld.so.conf.d
-		if [ ! -f /etc/ld.so.conf.d/gl4es.conf ]; then
-			touch /etc/ld.so.conf.d/gl4es.conf
-		fi
-		echo "$PATH_GL4ES" >/etc/ld.so.conf.d/gl4es.conf
-
-		ldconfig
+	if [ -f /usr/bin/gl4es ]; then
+		chmod +x /usr/bin/gl4es
 	else
-		echo "GL4ES library not found" >&2
-
-		exit 1
+		echo "Failed to create /usr/bin/gl4es"
 	fi
 }
 
-disable_gpu() {
+disable_gpu_opengl() {
 	__parameter_count_check 0 "$@"
 
-	if grep -q "$PATH_GL4ES" /etc/environment; then
-		if grep -q "LD_LIBRARY_PATH=" /etc/environment; then
-			ld_library_path=$(grep "LD_LIBRARY_PATH" /etc/environment | sed 's/export LD_LIBRARY_PATH=//g')
-			ld_library_path=${ld_library_path//$PATH_GL4ES/}
-
-			# fixup LD_LIBRARY_PATH
-			fixup_ld_library_path "$ld_library_path"
-
-			sed -i "/LD_LIBRARY_PATH/d" /etc/environment
-			echo "export LD_LIBRARY_PATH=$ld_library_path" >>/etc/environment
-
-			source /etc/environment
-		fi
-
-		# Disable GL4ES library inside /etc/ld.so.conf.d
-		if [ -f /etc/ld.so.conf.d/gl4es.conf ]; then
-			rm -f /etc/ld.so.conf.d/gl4es.conf
-
-			ldconfig
-		fi
+	if [ -f /usr/bin/gl4es ]; then
+		rm /usr/bin/gl4es
 	fi
 }
