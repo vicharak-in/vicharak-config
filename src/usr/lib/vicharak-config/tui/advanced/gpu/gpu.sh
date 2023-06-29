@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-__task_gpu_uninstall() {
+__advanced_gpu_uninstall() {
 	echo "Uninstalling Rockchip Mali gpu..." 2>&1 | tee -a "test"
 	if yesno "Are you sure to uninstall Rockchip Mali gpu?"; then
 		if uninstall_gpu; then
@@ -11,14 +11,14 @@ __task_gpu_uninstall() {
 	fi
 }
 
-__task_gpu_install() {
+__advanced_gpu_install() {
 	echo "Installing Mali gpu..." 2>&1 | tee -a "test"
 	if yesno "Are you sure to install Rockchip Mali gpu library?"; then
 		install_gpu
 	fi
 }
 
-__task_gpu_enable_opengl() {
+__advanced_gpu_enable_opengl() {
 	if yesno "Are you sure to enable OpenGL support for Rockchip Mali gpu?"; then
 		if enable_gpu_opengl; then
 			msgbox "Enabled OpenGL support for Rockchip Mali gpu.\n\nUse 'gl4es' prefix to run OpenGL applications."
@@ -28,7 +28,7 @@ __task_gpu_enable_opengl() {
 	fi
 }
 
-__task_gpu_disable_opengl() {
+__advanced_gpu_disable_opengl() {
 	if yesno "Are you sure to disable OpenGL support for Rockchip Mali gpu?"; then
 		if disable_gpu_opengl; then
 			msgbox "Disabled OpenGL support for Rockchip Mali gpu."
@@ -38,19 +38,19 @@ __task_gpu_disable_opengl() {
 	fi
 }
 
-__task_gpu() {
+__advanced_gpu() {
 	menu_init
 
 	if apt list --installed | grep -q "libmali"; then
-		menu_add __task_gpu_uninstall "Uninstall Rockchip Mali gpu"
+		menu_add __advanced_gpu_uninstall "Uninstall Rockchip Mali gpu"
 	else
-		menu_add __task_gpu_install "Install Rockchip Mali gpu"
+		menu_add __advanced_gpu_install "Install Rockchip Mali gpu"
 	fi
 
 	if [ -f /usr/bin/gl4es ]; then
-		menu_add __task_gpu_disable_opengl "Disable OpenGL support for Rockchip Mali gpu"
+		menu_add __advanced_gpu_disable_opengl "Disable OpenGL support for Rockchip Mali gpu"
 	else
-		menu_add __task_gpu_enable_opengl "Enable OpenGL support for Rockchip Mali gpu"
+		menu_add __advanced_gpu_enable_opengl "Enable OpenGL support for Rockchip Mali gpu"
 	fi
 
 	menu_show "Please select an option below:"
