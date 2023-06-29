@@ -85,3 +85,9 @@ jobs:
             ## Changelog for ${{ env.version }}
             ${{ env.changes }}
           append_body: true
+      - name: Update
+        if: env.distro != 'UNRELEASED'
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          test-repo: true
+          token: ${{ secrets.GITHUB_TOKEN }}
