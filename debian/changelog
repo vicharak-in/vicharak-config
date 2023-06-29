@@ -1,3 +1,13 @@
+vicharak-config (0.0.3) jammy; urgency=medium
+
+  [ UtsavBalar1231 ]
+  * Fixed OpenGL configuration for Mali GPUs
+  * Added support to delete an existing user
+  * Renamed tasks section to Advanced
+  * Added support for changing display resolution
+
+ -- "UtsavBalar1231" <utsavbalar1231@gmail.com>  Thu, 29 Jun 2023 12:52:31 +0000
+
 vicharak-config (0.0.2) jammy; urgency=medium
 
   [ UtsavBalar1231 ]
