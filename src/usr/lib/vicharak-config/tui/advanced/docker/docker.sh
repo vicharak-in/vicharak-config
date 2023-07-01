@@ -45,7 +45,7 @@ __advanced_docker_disable() {
 
 __advanced_docker() {
     menu_init
-    if apt-get list --installed docker.io | grep docker.io
+	if __is_installed docker.io
     then
         menu_add __advanced_docker_uninstall   "Uninstall Docker"
     else

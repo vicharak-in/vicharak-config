@@ -47,7 +47,7 @@ __advanced_gpu_disable_opengl() {
 __advanced_gpu() {
 	menu_init
 
-	if apt list --installed | grep -q "libmali"; then
+	if __is_installed libmali*; then
 		menu_add __advanced_gpu_uninstall "Uninstall Rockchip Mali gpu"
 	else
 		menu_add __advanced_gpu_install "Install Rockchip Mali gpu"

@@ -42,7 +42,8 @@ __advanced_ssh_disable() {
 
 __advanced_ssh() {
     menu_init
-    if apt-get list --installed openssh-server | grep openssh-server
+
+	if __is_installed openssh-server
     then
         menu_add __advanced_ssh_uninstall   "Uninstall SSH"
     else
