@@ -28,9 +28,9 @@ Are you sure you want to update the bootloader?"
 
     local pid
     pid="$(get_product_id)"
-    for i in /userdata/"$pid"*
+    for i in /lib/u-boot/"$pid"*
     do
-        radiolist_add "${i##/userdata/}" "OFF"
+        radiolist_add "${i##/lib/u-boot/}" "OFF"
     done
     radiolist_emptymsg "No compatible bootloader is available."
 
@@ -74,9 +74,9 @@ Are you sure you want to update the bootloader?"
 
     local pid ret
     pid="$(get_product_id)"
-    for i in /userdata/"$pid"*
+    for i in /lib/u-boot/"$pid"*
     do
-        radiolist_add "${i##/userdata/}" "OFF"
+        radiolist_add "${i##/lib/u-boot/}" "OFF"
     done
     radiolist_emptymsg "No compatible bootloader is available."
 
@@ -120,9 +120,9 @@ Are you sure you want to update the bootloader?"
 
     local pid
     pid="$(get_product_id)"
-    for i in /userdata/"$pid"*
+    for i in /lib/u-boot/"$pid"*
     do
-        radiolist_add "${i##/userdata/}" "OFF"
+        radiolist_add "${i##/lib/u-boot/}" "OFF"
     done
     radiolist_emptymsg "No compatible bootloader is available."
 

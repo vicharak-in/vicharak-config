@@ -39,33 +39,33 @@ Please only enable one of them."
 }
 
 load_u-boot_setting() {
-    if [[ ! -e "/userdata/u-boot" ]]
+    if [[ ! -e "/userdata/u-boot-config" ]]
     then
-        touch "/userdata/u-boot"
+        touch "/userdata/u-boot-config"
     fi
 
     # shellcheck source=/dev/null
-    source "/userdata/u-boot"
+    source "/userdata/u-boot-config"
 
     if [[ -z "${U_BOOT_TIMEOUT:-}" ]]
     then
-        if ! grep -q "^U_BOOT_TIMEOUT" "/userdata/u-boot"
+        if ! grep -q "^U_BOOT_TIMEOUT" "/userdata/u-boot-config"
         then
-            echo 'U_BOOT_TIMEOUT="10"' >> "/userdata/u-boot"
+            echo 'U_BOOT_TIMEOUT="10"' >> "/userdata/u-boot-config"
         fi
-        sed -i "s/^U_BOOT_TIMEOUT=.*/U_BOOT_TIMEOUT=\"10\"/g" "/userdata/u-boot"
+        sed -i "s/^U_BOOT_TIMEOUT=.*/U_BOOT_TIMEOUT=\"10\"/g" "/userdata/u-boot-config"
     fi
     if [[ -z "${U_BOOT_PARAMETERS:-}" ]]
     then
-        if ! grep -q "^U_BOOT_PARAMETERS" "/userdata/u-boot"
+        if ! grep -q "^U_BOOT_PARAMETERS" "/userdata/u-boot-config"
         then
-            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/boot/cmdline\")\"" >> "/userdata/u-boot"
+            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/boot/cmdline\")\"" >> "/userdata/u-boot-config"
         fi
-        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /boot/cmdline)\"|g" "/userdata/u-boot"
+        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /boot/cmdline)\"|g" "/userdata/u-boot-config"
     fi
 
     # shellcheck source=/dev/null
-    source "/userdata/u-boot"
+    source "/userdata/u-boot-config"
 }
 
 disable_overlays() {
