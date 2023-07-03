@@ -22,9 +22,6 @@ __advanced_gpu_enable_opengl() {
 	if yesno "Are you sure to enable OpenGL support for Rockchip Mali gpu?"; then
 		if enable_gpu_opengl; then
 			msgbox "Enabled OpenGL support for Rockchip Mali gpu.\n\nUse 'gl4es' prefix to run OpenGL applications."
-			if yesno "The system needs to be rebooted. Do you want to reboot now?"; then
-				reboot
-			fi
 		else
 			msgbox "Failed to enable OpenGL support for Rockchip Mali gpu."
 		fi
@@ -35,9 +32,6 @@ __advanced_gpu_disable_opengl() {
 	if yesno "Are you sure to disable OpenGL support for Rockchip Mali gpu?"; then
 		if disable_gpu_opengl; then
 			msgbox "Disabled OpenGL support for Rockchip Mali gpu."
-			if yesno "The system needs to be rebooted. Do you want to reboot now?"; then
-				reboot
-			fi
 		else
 			msgbox "Failed to disable OpenGL support for Rockchip Mali gpu."
 		fi

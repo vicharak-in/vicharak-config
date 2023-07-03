@@ -12,15 +12,11 @@ uninstall_gpu() {
 		fi
 		apt purge "$line" -y
 	done <<<"$lib_mali"
-
-	sed -i 's/none/always/g' /etc/X11/xorg.conf.d/20-modesetting.conf
 }
 
 install_gpu() {
 	__parameter_count_check 0 "$@"
 	apt install /userdata/gpu/*.deb || true
-
-	sed -i 's/always/none/g' /etc/X11/xorg.conf.d/20-modesetting.conf
 }
 
 enable_gpu_opengl() {
@@ -32,9 +28,7 @@ enable_gpu_opengl() {
 
 shopt -s nullglob
 
-for path in /usr/lib/*/gl4es; do
-	export LD_LIBRARY_PATH="${path}:${LD_LIBRARY_PATH}"
-done
+export LD_LIBRARY_PATH="/usr/lib/gl4es:${LD_LIBRARY_PATH}"
 
 exec "$@"
 ' >/usr/bin/gl4es
@@ -50,6 +44,6 @@ disable_gpu_opengl() {
 	__parameter_count_check 0 "$@"
 
 	if [ -f /usr/bin/gl4es ]; then
-		rm /usr/bin/gl4es
+		rm -f /usr/bin/gl4es
 	fi
 }
