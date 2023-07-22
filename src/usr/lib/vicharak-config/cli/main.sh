@@ -1,6 +1,13 @@
 # shellcheck shell=bash
 # shellcheck disable=SC1090
 
+if git status &>/dev/null && [[ -f "$PWD/src/usr/bin/vicharak-config" ]]
+then
+    ROOT_PATH="${ROOT_PATH:-"$PWD"}/src"
+else
+    ROOT_PATH="${ROOT_PATH:-}"
+fi
+
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/utils.sh"
 
 source "${ROOT_PATH}/usr/lib/vicharak-config/cli/account.sh"
