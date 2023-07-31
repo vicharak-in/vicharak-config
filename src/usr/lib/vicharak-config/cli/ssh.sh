@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-ALLOWED_RCONFIG_FUNC+=("regenerate_ssh_hostkey")
+ALLOWED_VICHARAK_CONFIG_FUNC+=("regenerate_ssh_hostkey")
 
 regenerate_ssh_hostkey() {
 	echo "Removing existing SSH host keys..."

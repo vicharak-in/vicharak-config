@@ -1,0 +1,6 @@
+# Small bug number is very probable for us.
+vicharak-config: improbable-bug-number-in-closes
+
+# We depends on x-terminal-emulator
+vicharak-config: desktop-command-not-in-package
+vicharak-config: groff-message

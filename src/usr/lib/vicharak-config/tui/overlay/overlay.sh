@@ -28,10 +28,14 @@ Are you sure?"; then
 	basename="$(basename "$item")"
 
 	case $basename in
+	#	*.dtbo.disabled)
+	#		msgbox "This overlay is disabled!"
+	#		return
+	#		;;
 	*.dtbo)
 		cp "$item" "$VICHARAK_FDT_OVERLAYS_DIR/$basename"
 		;;
-	*.dtb)
+	*.dts)
 		basename="${basename%.dts}.dtbo"
 
 		compile_dtb "$item" "$VICHARAK_FDT_OVERLAYS_DIR/$basename" || err=$?

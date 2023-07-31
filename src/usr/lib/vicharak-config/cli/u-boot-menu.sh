@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
 
-ALLOWED_RCONFIG_FUNC+=("load_u-boot_setting")
+ALLOWED_VICHARAK_CONFIG_FUNC+=("load_u-boot_setting")
 
 U_BOOT_FDT_OVERLAYS_DIR="/boot/overlays"
 

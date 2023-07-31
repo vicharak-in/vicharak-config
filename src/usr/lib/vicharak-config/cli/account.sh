@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-ALLOWED_RCONFIG_FUNC+=("add_user" "update_password" "user_append_group" "remove_user")
+ALLOWED_VICHARAK_CONFIG_FUNC+=("add_user" "update_password" "user_append_group" "remove_user")
 
 add_user() {
 	local username="$1"

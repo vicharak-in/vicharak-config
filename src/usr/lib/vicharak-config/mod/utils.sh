@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-ALLOWED_RCONFIG_FUNC+=("log")
+ALLOWED_VICHARAK_CONFIG_FUNC+=("log")
 
 readonly ERROR_REQUIRE_PARAMETER=-1
 readonly ERROR_TOO_FEW_PARAMETERS=-2

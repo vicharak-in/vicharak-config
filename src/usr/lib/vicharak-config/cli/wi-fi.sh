@@ -1,6 +1,6 @@
 # shellcheck shell=bash
 
-ALLOWED_RCONFIG_FUNC+=("connect_wi-fi")
+ALLOWED_VICHARAK_CONFIG_FUNC+=("connect_wi-fi")
 
 connect_wi-fi() {
 	case $# in

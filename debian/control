@@ -16,8 +16,10 @@ Priority: standard
 Depends: device-tree-compiler,
          gdisk,
          parted,
+		 pkexec | policykit-1 (<< 122-1),
          whiptail,
          ${misc:Depends},
+Suggests: x-terminal-emulator
 Description: Vicharak system setup utility
  Vicharak system setup utility (vicharak-config) provides an
  user friendly menu to perform many essential

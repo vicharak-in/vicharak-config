@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=vicharak-config
+Icon=preferences-system
+GenericName=Vicharak System Configuration
+Comment=Customize your Vicharak Linux systems
+Exec=x-terminal-emulator -e vicharak-config
+Categories=Settings;
+Keywords=system;vicharak-config

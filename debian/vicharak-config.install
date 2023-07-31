@@ -1,0 +1,5 @@
+src/etc     /
+src/usr/bin /usr
+src/usr/lib /usr
+src/usr/share/applications /usr/share
+src/usr/share/man/man8/vicharak-config.8 /usr/share/man/man8
