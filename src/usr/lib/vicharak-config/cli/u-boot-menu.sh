@@ -3,7 +3,7 @@ source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
 
 ALLOWED_RCONFIG_FUNC+=("load_u-boot_setting")
 
-U_BOOT_FDT_OVERLAYS_DIR="/boot/overlay"
+U_BOOT_FDT_OVERLAYS_DIR="/boot/overlays"
 
 check_overlay_conflict_init() {
     VICHARAK_CONFIG_OVERLAY_RESOURCES=()
@@ -39,33 +39,33 @@ Please only enable one of them."
 }
 
 load_u-boot_setting() {
-    if [[ ! -e "/userdata/u-boot-config" ]]
+    if [[ ! -e "/etc/default/u-boot" ]]
     then
-        touch "/userdata/u-boot-config"
+        touch "/etc/default/u-boot"
     fi
 
     # shellcheck source=/dev/null
-    source "/userdata/u-boot-config"
+    source "/etc/default/u-boot"
 
     if [[ -z "${U_BOOT_TIMEOUT:-}" ]]
     then
-        if ! grep -q "^U_BOOT_TIMEOUT" "/userdata/u-boot-config"
+        if ! grep -q "^U_BOOT_TIMEOUT" "/etc/default/u-boot"
         then
-            echo 'U_BOOT_TIMEOUT="10"' >> "/userdata/u-boot-config"
+            echo 'U_BOOT_TIMEOUT="10"' >> "/etc/default/u-boot"
         fi
-        sed -i "s/^U_BOOT_TIMEOUT=.*/U_BOOT_TIMEOUT=\"10\"/g" "/userdata/u-boot-config"
+        sed -i "s/^U_BOOT_TIMEOUT=.*/U_BOOT_TIMEOUT=\"10\"/g" "/etc/default/u-boot"
     fi
     if [[ -z "${U_BOOT_PARAMETERS:-}" ]]
     then
-        if ! grep -q "^U_BOOT_PARAMETERS" "/userdata/u-boot-config"
+        if ! grep -q "^U_BOOT_PARAMETERS" "/etc/default/u-boot"
         then
-            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/boot/cmdline\")\"" >> "/userdata/u-boot-config"
+            echo "U_BOOT_PARAMETERS=\"\$(cat \"\/etc/kernel/cmdline\")\"" >> "/etc/default/u-boot"
         fi
-        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /boot/cmdline)\"|g" "/userdata/u-boot-config"
+        sed -i "s|^U_BOOT_PARAMETERS=.*|U_BOOT_PARAMETERS=\"\$(cat /etc/kernel/cmdline)\"|g" "/etc/default/u-boot"
     fi
 
     # shellcheck source=/dev/null
-    source "/userdata/u-boot-config"
+    source "/etc/default/u-boot"
 }
 
 disable_overlays() {

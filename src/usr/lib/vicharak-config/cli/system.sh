@@ -7,29 +7,29 @@ ALLOWED_RCONFIG_FUNC+=("update_hostname" "update_locale" "enable_service" "disab
 update_bootloader() {
     local pid device
     pid="${1:-$(get_product_id)}"
-    __assert_f "/lib/u-boot/$pid/setup.sh"
+    __assert_f "/usr/lib/u-boot/$pid/setup.sh"
 
     device="${2:-$(__get_block_dev)}"
 
-    "/lib/u-boot/$pid/setup.sh" update_bootloader "$device"
+    "/usr/lib/u-boot/$pid/setup.sh" update_bootloader "$device"
 }
 
 update_spinor() {
     local pid
     pid="${1:-$(get_product_id)}"
-    __assert_f "/lib/u-boot/$pid/setup.sh"
+    __assert_f "/usr/lib/u-boot/$pid/setup.sh"
 
-    "/lib/u-boot/$pid/setup.sh" update_spinor
+    "/usr/lib/u-boot/$pid/setup.sh" update_spinor
 }
 
 update_emmc_boot() {
     local pid device
     pid="${1:-$(get_product_id)}"
-    __assert_f "/lib/u-boot/$pid/setup.sh"
+    __assert_f "/usr/lib/u-boot/$pid/setup.sh"
 
     for device in /dev/mmcblk*boot0
     do
-        "/lib/u-boot/$pid/setup.sh" update_emmc_boot "$device"
+        "/usr/lib/u-boot/$pid/setup.sh" update_emmc_boot "$device"
     done
 }
 

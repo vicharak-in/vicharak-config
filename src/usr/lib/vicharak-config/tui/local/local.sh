@@ -53,7 +53,7 @@ __local_wifi_country() {
             wpa_cli -i "$iface" save_config > /dev/null 2>&1
             iw reg set "$country"
 
-            local file="/userdata/crda"
+            local file="/etc/default/crda"
             if [[ ! -f $file ]]
             then
                 touch $file

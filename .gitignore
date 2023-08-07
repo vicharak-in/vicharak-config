@@ -1,4 +1,5 @@
 /.vscode*
 /overlay
+/output
 /out
 /VERSION
