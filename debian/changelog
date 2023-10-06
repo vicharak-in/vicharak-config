@@ -1,3 +1,15 @@
+vicharak-config (0.0.5) jammy; urgency=medium
+
+  [ UtsavBalar1231 ]
+  * Added desktop integration
+  * Improved logic of system upgrade
+  * Fixed dtbo overlay being renamed to .dtbo.disabled.disabled
+  * Fixed vicharak-config crash on failed commands
+  * Fixed custom dts installation
+  * Updated MPP debug functions, (chromium debug support)
+
+ -- UtsavBalar1231 <utsavbalar1231@gmail.com>  Fri, 06 Oct 2023 10:40:43 +0530
+
 vicharak-config (0.0.4) jammy; urgency=medium
 
   [ UtsavBalar1231 ]
