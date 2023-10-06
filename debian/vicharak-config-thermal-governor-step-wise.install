@@ -1,0 +1,1 @@
+config/00-thermal_governor-step_wise.conf /usr/lib/vicharak-config/conf.d/on_boot

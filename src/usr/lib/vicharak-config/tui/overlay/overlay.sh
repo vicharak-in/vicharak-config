@@ -1,11 +1,13 @@
 # shellcheck shell=bash
+# shellcheck disable=SC1090
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/hwid.sh"
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/pkg.sh"
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
+
 VICHARAK_FDT_OVERLAYS_DIR="/boot/overlays"
 
 __overlay_install() {
-	if ! __depends_package "gcc" "linux-headers-$(uname -r)"; then
+	if ! __depends_package "Install 3rd party overlay" "gcc" "linux-headers-$(uname -r)"; then
 		return
 	fi
 
@@ -153,6 +155,16 @@ __overlay_validate() {
 		if ! check_overlay_conflict "$VICHARAK_FDT_OVERLAYS_DIR/$item"*; then
 			return 1
 		fi
+
+		local title package
+		mapfile -t title < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "title" "$(basename "$item")")
+		mapfile -t package < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "package")
+		if [[ "${package[0]}" != "null" ]]; then
+			if ! __depends_package "${title[0]}" "${package[@]}"; then
+				msgbox "Failed to install required packages for '${title[0]}'."
+				return 1
+			fi
+		fi
 	done
 }
 
@@ -181,11 +193,13 @@ __overlay_info() {
 		return
 	fi
 
-	local item title category description i
+	local item title category description exclusive package i
 	for i in "${VICHARAK_CONFIG_CHECKLIST_STATE_NEW[@]}"; do
 		item="$(checklist_getitem "$i")"
 		mapfile -t title < <(parse_dtbo "$VICHARAK_FDT_OVERLAYS_DIR/$item"* "title")
 		mapfile -t category < <(parse_dtbo "$VICHARAK_FDT_OVERLAYS_DIR/$item"* "category")
+		mapfile -t exclusive < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "exclusive")
+		mapfile -t package < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "package")
 		description="$(parse_dtbo "$VICHARAK_FDT_OVERLAYS_DIR/$item"* "description")"
 		if ((${#title[@]} == 1)) && [[ "${title[0]}" == "null" ]]; then
 			title=("$item")
@@ -193,6 +207,8 @@ __overlay_info() {
 		fi
 		if ! yesno "Title: ${title[0]}
 Category: ${category[0]}
+Exclusive: ${exclusive[*]}
+Package: ${package[*]}
 Description:
 
 $description"; then

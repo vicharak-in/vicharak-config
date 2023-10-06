@@ -1,5 +1,9 @@
 # shellcheck shell=bash
 
+# Provides remove_packages
+# shellcheck disable=SC1091
+source "/usr/lib/vicharak-config/mod/pkg.sh"
+
 ALLOWED_VICHARAK_CONFIG_FUNC+=("request_reboot" "headless" "no_fail")
 
 VICHARAK_CONFIG_REBOOT="false"
@@ -67,15 +71,15 @@ process_config() {
 __on_boot() {
 	__parameter_count_check 0 "$@"
 
-	local conf_dir="/userdata"
+	local ext_user_conf_dir="/userdata" distro_conf_dir="/usr/lib/vicharak-config/conf.d/on_boot"
 
-	for i in "$conf_dir/before.txt" "$conf_dir/config.txt" "$conf_dir/after.txt"; do
+	for i in "$distro_conf_dir"/*.conf "$ext_user_conf_dir/before.txt" "$ext_user_conf_dir/config.txt" "$ext_user_conf_dir/after.txt"; do
 		if [[ -e "$i" ]]; then
 			process_config "$i"
 		fi
 	done
 
-	rm -f "$conf_dir/before.txt" "$conf_dir/after.txt"
+	rm -f "$ext_user_conf_dir/before.txt" "$ext_user_conf_dir/after.txt"
 
 	if [[ "$VICHARAK_CONFIG_REBOOT" == "true" ]]; then
 		reboot

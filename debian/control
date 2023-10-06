@@ -5,6 +5,7 @@ Priority: standard
 Standards-Version: 4.6.0
 Build-Depends: debhelper (>=12~),
                devscripts,
+               dh-exec,
                lintian,
                pandoc,
                shellcheck,
@@ -16,7 +17,7 @@ Priority: standard
 Depends: device-tree-compiler,
          gdisk,
          parted,
-		 pkexec | policykit-1 (<< 122-1),
+         pkexec | policykit-1 (<< 122-1),
          whiptail,
          ${misc:Depends},
 Suggests: x-terminal-emulator
@@ -25,3 +26,21 @@ Description: Vicharak system setup utility
  user friendly menu to perform many essential
  system configuration tasks.
  It also provides an on-boot configuration service to allow customization.
+
+Package: vicharak-config-thermal-governor-step-wise
+Architecture: all
+Section: admin
+Priority: standard
+Depends: vicharak-config (= ${binary:Version}),
+         ${misc:Depends},
+Description: Vicharak config - Set thermal_governor to step_wise
+ This package set thermal_governor to step_wise on boot.
+
+Package: vicharak-config-first-boot
+Architecture: all
+Section: admin
+Priority: standard
+Depends: vicharak-config (= ${binary:Version}),
+         ${misc:Depends},
+Description: Vicharak config - First boot configuration
+ This package contains the default first boot script.

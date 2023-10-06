@@ -1,0 +1,4 @@
+#!/usr/bin/dh-exec
+
+/usr/bin/vicharak-config /etc/kernel/postinst.d/yz-update-overlays
+/usr/bin/vicharak-config /etc/kernel/postrm.d/yz-update-overlays

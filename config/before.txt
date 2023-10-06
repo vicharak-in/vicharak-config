@@ -1,0 +1,74 @@
+## default `before.txt`
+
+# ==============================
+# Vicharak First Boot Configuration
+# ==============================
+
+# Allow config to continue even when some commands fail
+no_fail
+log "Running before.txt as first boot configuration"
+
+# Create default accounts
+# Commands:
+#   add_user <user name> <password>
+#   user_append_group <user name> <group>
+#
+add_user vicharak vicharak
+user_append_group vicharak sudo
+user_append_group vicharak audio
+user_append_group vicharak video
+user_append_group vicharak plugdev
+user_append_group vicharak render
+user_append_group vicharak gpio
+user_append_group vicharak i2c
+user_append_group vicharak spidev
+user_append_group vicharak pwm
+
+#add_user vaaman vaaman
+#user_append_group vaaman sudo
+#user_append_group vaaman audio
+#user_append_group vaaman video
+#user_append_group vaaman plugdev
+#user_append_group vaaman render
+#user_append_group vaaman gpio
+#user_append_group vaaman i2c
+#user_append_group vaaman spidev
+#user_append_group vaaman pwm
+
+# Resize root partition at the filesystem level
+#
+resize_root
+
+# Disable services
+# Command:
+#   disable_service <systemd unit name>
+#
+disable_service ssh
+disable_service smbd
+disable_service nmbd
+
+# Generate unique hardware fingerprint
+#
+regenerate_ssh_hostkey
+
+# Configure locale
+# Command:
+#   update_locale <locale>
+#
+update_locale en_US.UTF-8
+
+# Connect to Wi-Fi
+# Command:
+#   connect_wi-fi <network name> [password]
+#
+connect_wi-fi VEGG_5G sss3kk2aaaa4
+
+# Enable SSH on headless first boot
+# Keyword:
+#   if|if_not <condition> <command>
+# Condition:
+#   headless: When no display connector is connected
+# Command:
+#   enable_service <systemd unit name>
+#
+if headless enable_service ssh

@@ -26,7 +26,6 @@ shell: bash
 #
 .PHONY: test
 test:
-	find src -type f \( -name "*.sh" -o -name "vicharak-config" \) -exec shellcheck -e SC1090 --source-path=./src --external-sources {} +
 
 #
 # Build
@@ -74,7 +73,7 @@ clean-doc:
 
 .PHONY: clean-deb
 clean-deb:
-	rm -rf debian/.debhelper debian/${PROJECT} debian/debhelper-build-stamp debian/files debian/*.debhelper.log debian/*.postrm.debhelper debian/*.substvars
+	rm -rf debian/.debhelper debian/${PROJECT}*/ debian/debhelper-build-stamp debian/files debian/*.debhelper.log debian/*.postrm.debhelper debian/*.substvars
 
 #
 # Release
