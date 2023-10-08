@@ -4,8 +4,6 @@ source "${ROOT_PATH}/usr/lib/vicharak-config/mod/hwid.sh"
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/pkg.sh"
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
 
-VICHARAK_FDT_OVERLAYS_DIR="/boot/overlays"
-
 __overlay_install() {
 	if ! __depends_package "Install 3rd party overlay" "gcc" "linux-headers-$(uname -r)"; then
 		return
@@ -30,17 +28,13 @@ Are you sure?"; then
 	basename="$(basename "$item")"
 
 	case $basename in
-	#	*.dtbo.disabled)
-	#		msgbox "This overlay is disabled!"
-	#		return
-	#		;;
 	*.dtbo)
-		cp "$item" "$VICHARAK_FDT_OVERLAYS_DIR/$basename"
+		cp "$item" "$U_BOOT_FDT_OVERLAYS_DIR/$basename"
 		;;
 	*.dts)
 		basename="${basename%.dts}.dtbo"
 
-		compile_dtb "$item" "$VICHARAK_FDT_OVERLAYS_DIR/$basename" || err=$?
+		compile_dtb "$item" "$U_BOOT_FDT_OVERLAYS_DIR/$basename" || err=$?
 		case $err in
 		0) : ;;
 		1)
@@ -96,7 +90,7 @@ __overlay_filter_worker() {
 
 __overlay_filter() {
 	local temp="$1" nproc index
-	local dtbos=("$VICHARAK_FDT_OVERLAYS_DIR"/*.dtbo*)
+	local dtbos=("$U_BOOT_FDT_OVERLAYS_DIR"/*.dtbo*)
 	mapfile -t index < <(eval "echo {0..$((${#dtbos[@]} - 1))}" | tr ' ' '\n')
 	nproc=$(nproc)
 
@@ -134,7 +128,7 @@ __overlay_show() {
 		items=("${items[@]:3}")
 	done
 
-	checklist_emptymsg "Unable to find any compatible overlay under $VICHARAK_FDT_OVERLAYS_DIR."
+	checklist_emptymsg "Unable to find any compatible overlay under $U_BOOT_FDT_OVERLAYS_DIR."
 
 	while true; do
 		if ! checklist_show "Please select overlays:"; then
@@ -152,7 +146,7 @@ __overlay_validate() {
 	check_overlay_conflict_init
 	for i in "${VICHARAK_CONFIG_CHECKLIST_STATE_NEW[@]}"; do
 		item="$(checklist_getitem "$i")"
-		if ! check_overlay_conflict "$VICHARAK_FDT_OVERLAYS_DIR/$item"*; then
+		if ! check_overlay_conflict "$U_BOOT_FDT_OVERLAYS_DIR/$item"*; then
 			return 1
 		fi
 
@@ -178,7 +172,7 @@ __overlay_manage() {
 	local item
 	for i in "${VICHARAK_CONFIG_CHECKLIST_STATE_NEW[@]}"; do
 		item="$(checklist_getitem "$i")"
-		mv "$VICHARAK_FDT_OVERLAYS_DIR/$item.disabled" "$VICHARAK_FDT_OVERLAYS_DIR/$item"
+		mv "$U_BOOT_FDT_OVERLAYS_DIR/$item.disabled" "$U_BOOT_FDT_OVERLAYS_DIR/$item"
 	done
 
 	if u-boot-update >/dev/null; then
@@ -196,11 +190,11 @@ __overlay_info() {
 	local item title category description exclusive package i
 	for i in "${VICHARAK_CONFIG_CHECKLIST_STATE_NEW[@]}"; do
 		item="$(checklist_getitem "$i")"
-		mapfile -t title < <(parse_dtbo "$VICHARAK_FDT_OVERLAYS_DIR/$item"* "title")
-		mapfile -t category < <(parse_dtbo "$VICHARAK_FDT_OVERLAYS_DIR/$item"* "category")
+		mapfile -t title < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "title")
+		mapfile -t category < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "category")
 		mapfile -t exclusive < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "exclusive")
 		mapfile -t package < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "package")
-		description="$(parse_dtbo "$VICHARAK_FDT_OVERLAYS_DIR/$item"* "description")"
+		description="$(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "description")"
 		if ((${#title[@]} == 1)) && [[ "${title[0]}" == "null" ]]; then
 			title=("$item")
 			description="This is a 3rd party overlay. No metadata is available."
