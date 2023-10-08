@@ -1,4 +1,5 @@
 # shellcheck shell=bash
+# shellcheck disable=SC1090
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
 
 ALLOWED_VICHARAK_CONFIG_FUNC+=("load_u-boot_setting")
@@ -72,10 +73,18 @@ __reset_overlays_worker() {
 	local overlay="$1" new_overlays="$2"
 
 	if dtbo_is_compatible "$overlay"; then
-		cp "$overlay" "$new_overlays/$(basename "$overlay").disabled"
-		exec 100>>"$new_overlays/managed.list"
-		flock 100
-		basename "$overlay" >&100
+		if [[ ${overlay} =~ \.disabled$ ]]; then
+			# Remove all the enabled overlays if any
+			rm -f "$new_overlays/$(basename "${overlay%.disabled}")"
+
+			# Copy back the overlays from the disabled state
+			cp "$overlay" "$new_overlays/$(basename "$overlay")"
+
+			# Save the basename of the overlay to the managed list
+			exec 100>>"$new_overlays/managed.list"
+			flock 100
+			basename "$overlay" >&100
+		fi
 	fi
 }
 
