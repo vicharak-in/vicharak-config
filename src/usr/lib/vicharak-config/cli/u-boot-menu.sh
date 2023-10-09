@@ -64,10 +64,7 @@ disable_overlays() {
 	load_u-boot_setting
 
 	for i in "$U_BOOT_FDT_OVERLAYS_DIR"/*.dtbo; do
-		# Check if the filename ends with .disabled
-		if [[ ! "$filename" =~ \.disabled$ ]]; then
-			mv -- "$i" "$i.disabled"
-		fi
+		mv -- "$i" "${i}.disabled"
 	done
 }
 
@@ -75,16 +72,10 @@ __reset_overlays_worker() {
 	local overlay="$1" new_overlays="$2"
 
 	if dtbo_is_compatible "$overlay"; then
-		local filename
-		filename="$(basename "$overlay")"
-
-		# Check if the filename ends with .disabled
-		if [[ ! "$filename" =~ \.disabled$ ]]; then
-			# Check if a .disabled file already exists for this overlay
-			if [[ -e "$new_overlays/$filename.disabled" ]]; then
-				mv -- "$new_overlays/$filename.disabled" "$new_overlays/$filename"
-			fi
-		fi
+		cp "$overlay" "$new_overlays/$(basename "$overlay").disabled"
+		exec 100>>"$new_overlays/managed.list"
+		flock 100
+		basename "$overlay" >&100
 	fi
 }
 
@@ -105,21 +96,11 @@ reset_overlays() {
 		mapfile -t VICHARAK_CONFIG_MANAGED_OVERLAYS <"$new_overlays/managed.list"
 
 		for i in "${VICHARAK_CONFIG_MANAGED_OVERLAYS[@]}"; do
-			local filename="$i"
-			local disabled_filename="${filename}.disabled"
-
-			# Check if the filename ends with .disabled
-			if [[ ! "$filename" =~ \.disabled$ ]]; then
-				if [[ -f "$new_overlays/$disabled_filename" ]]; then
-					mv -- "$new_overlays/$disabled_filename" "$new_overlays/$filename"
-				fi
+			if [[ -f "$new_overlays/$i" ]]; then
+				enabled_overlays+=("$i")
+				rm -f "$new_overlays/$i"
 			fi
-
-			if [[ -f "$new_overlays/$filename" ]]; then
-				enabled_overlays+=("$filename")
-				rm -f "$new_overlays/$filename"
-			fi
-			rm -f "$new_overlays/$disabled_filename"
+			rm -f "$new_overlays/$i.disabled"
 		done
 	fi
 
