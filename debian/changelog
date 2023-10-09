@@ -1,3 +1,13 @@
+vicharak-config (0.0.6) focal; urgency=medium
+
+  [ UtsavBalar1231 ]
+  * vicharak-config: Sync with latest rsetup changes
+  * Revert "vicharak-config: Do not append `.disabled` to already disabled dtbo files"
+  * vicharak-config: u-boot-menu: Fix issue during resetting overlays
+  * vicharak-config: tui: overlay: Set default DTBO path to u-boot-menu specific path
+
+ -- vicharak <vicharak@galactos>  Mon, 09 Oct 2023 15:28:46 +0530
+
 vicharak-config (0.0.5) jammy; urgency=medium
 
   [ UtsavBalar1231 ]
