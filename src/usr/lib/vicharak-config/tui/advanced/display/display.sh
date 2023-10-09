@@ -173,9 +173,33 @@ Please check if the screen is connected and powered on."
 	fi
 }
 
+enable_vnc_server() {
+	# check if systemd service is enabled
+	if systemctl is-enabled vncserver.service; then
+		systemctl start vncserver.service >/dev/null 2>&1
+	else
+		systemctl enable vncserver.service >/dev/null 2>&1
+	fi
+}
+
+__advanced_enable_vnc_server() {
+	if yesno "Are you sure to enable X11VNC server?"; then
+		if ! __is_installed vncserver; then
+			msgbox "VNC server is not installed.\nPlease install x11vnc first."
+			return
+		fi
+		if enable_vnc_server; then
+			msgbox "Enable X11VNC server success."
+		else
+			msgbox "Enable X11VNC server failure."
+		fi
+	fi
+}
+
 __advanced_display() {
 	menu_init
 	menu_add __advanced_set_display_resolution "Set display resolution"
+	menu_add __advanced_enable_vnc_server "Enable X11 VNC server"
 
 	menu_show "Advanced Display"
 }
