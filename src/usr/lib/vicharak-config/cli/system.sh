@@ -104,13 +104,13 @@ set_thermal_governor() {
 	done
 }
 
-RBUILD_LED_GPIO_ROOT_PATH="/sys/bus/platform/drivers/leds-gpio"
+VICHARAK_BUILD_LED_GPIO_ROOT_PATH="/sys/bus/platform/drivers/leds-gpio"
 
 set_led_trigger() {
 	__parameter_count_check 2 "$@"
 
 	local led="$1" trigger="$2" node
-	for node in "$RBUILD_LED_GPIO_ROOT_PATH"/*/leds/"$led"/trigger; do
+	for node in "$VICHARAK_BUILD_LED_GPIO_ROOT_PATH"/*/leds/"$led"/trigger; do
 		echo "$trigger" >"$node"
 	done
 }

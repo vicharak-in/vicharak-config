@@ -1,19 +1,19 @@
 # shellcheck shell=bash
 
 config_transaction_start() {
-	RBUILD_CONFIG="/userdata/config.txt.new"
-	cp /userdata/config.txt "$RBUILD_CONFIG"
+	VICHARAK_BUILD_CONFIG="/userdata/config.txt.new"
+	cp /userdata/config.txt "$VICHARAK_BUILD_CONFIG"
 }
 
 config_transaction_abort() {
-	rm -f "$RBUILD_CONFIG"
-	unset RBUILD_CONFIG
+	rm -f "$VICHARAK_BUILD_CONFIG"
+	unset VICHARAK_BUILD_CONFIG
 }
 
 config_transaction_commit() {
 	cp /userdata/config.txt /userdata/config.txt.old
-	mv "$RBUILD_CONFIG" /userdata/config.txt
-	unset RBUILD_CONFIG
+	mv "$VICHARAK_BUILD_CONFIG" /userdata/config.txt
+	unset VICHARAK_BUILD_CONFIG
 }
 
 remove_config() {
@@ -23,11 +23,11 @@ remove_config() {
 		regex="$regex\s+$1"
 		shift
 	done
-	sed -E -i "/^\s*$regex.*$/d" "$RBUILD_CONFIG"
+	sed -E -i "/^\s*$regex.*$/d" "$VICHARAK_BUILD_CONFIG"
 }
 
 add_config() {
-	echo "$@" >>"$RBUILD_CONFIG"
+	echo "$@" >>"$VICHARAK_BUILD_CONFIG"
 }
 
 enable_config() {

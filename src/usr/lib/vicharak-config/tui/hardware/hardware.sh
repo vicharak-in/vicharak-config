@@ -34,7 +34,7 @@ Please make sure they are enabled first."
 __hardware_gpio_leds() {
 	checklist_init
 
-	for i in "$RBUILD_LED_GPIO_ROOT_PATH"/*/leds/*; do
+	for i in "$VICHARAK_BUILD_LED_GPIO_ROOT_PATH"/*/leds/*; do
 		if [[ -f "$i/trigger" ]]; then
 			checklist_add "$(basename "$i") [$(sed -E "s/.*\[(.*)\].*/\1/" "$i/trigger")]" "OFF"
 		fi
@@ -48,7 +48,7 @@ Select any to update their trigger." || ((${#VICHARAK_CONFIG_CHECKLIST_STATE_NEW
 	fi
 
 	local triggers
-	read -r -a triggers <<<"$(sed "s/\[//;s/\]//" "$(find -L "$RBUILD_LED_GPIO_ROOT_PATH" -mindepth 4 -maxdepth 4 -name 'trigger' 2>/dev/null | head -1)")"
+	read -r -a triggers <<<"$(sed "s/\[//;s/\]//" "$(find -L "$VICHARAK_BUILD_LED_GPIO_ROOT_PATH" -mindepth 4 -maxdepth 4 -name 'trigger' 2>/dev/null | head -1)")"
 
 	radiolist_init
 	for i in "${triggers[@]}"; do
