@@ -71,7 +71,7 @@ process_config() {
 __on_boot() {
 	__parameter_count_check 0 "$@"
 
-	local ext_user_conf_dir="/userdata" distro_conf_dir="/usr/lib/vicharak-config/conf.d/on_boot"
+	local ext_user_conf_dir="/usr/lib/vicharak-config/conf.d" distro_conf_dir="/usr/lib/vicharak-config/conf.d/on_boot"
 
 	for i in "$distro_conf_dir"/*.conf "$ext_user_conf_dir/before.txt" "$ext_user_conf_dir/config.txt" "$ext_user_conf_dir/after.txt"; do
 		if [[ -e "$i" ]]; then

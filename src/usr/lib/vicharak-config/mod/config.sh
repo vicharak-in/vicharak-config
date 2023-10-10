@@ -1,8 +1,8 @@
 # shellcheck shell=bash
 
 config_transaction_start() {
-	VICHARAK_BUILD_CONFIG="/userdata/config.txt.new"
-	cp /userdata/config.txt "$VICHARAK_BUILD_CONFIG"
+	VICHARAK_BUILD_CONFIG="/usr/lib/vicharak-config/conf.d/config.txt.new"
+	cp /usr/lib/vicharak-config/conf.d/config.txt "$VICHARAK_BUILD_CONFIG"
 }
 
 config_transaction_abort() {
@@ -11,8 +11,8 @@ config_transaction_abort() {
 }
 
 config_transaction_commit() {
-	cp /userdata/config.txt /userdata/config.txt.old
-	mv "$VICHARAK_BUILD_CONFIG" /userdata/config.txt
+	cp /usr/lib/vicharak-config/conf.d/config.txt /usr/lib/vicharak-config/conf.d/config.txt.old
+	mv "$VICHARAK_BUILD_CONFIG" /usr/lib/vicharak-config/conf.d/config.txt
 	unset VICHARAK_BUILD_CONFIG
 }
 
