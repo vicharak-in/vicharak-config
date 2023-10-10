@@ -16,6 +16,11 @@ uninstall_gpu() {
 
 install_gpu() {
 	__parameter_count_check 0 "$@"
+
+	if [ -d /userdata/gpu ]; then
+		msgbox "The directory '/userdata/gpu' does not exists!\nSomething went wrong."
+		return
+	fi
 	apt install /userdata/gpu/*.deb || true
 }
 
