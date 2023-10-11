@@ -13,7 +13,7 @@ log "Running before.txt as first boot configuration"
 #   add_user <user name> <password>
 #   user_append_group <user name> <group>
 #
-add_user vicharak vicharak
+add_user vicharak 12345
 user_append_group vicharak sudo
 user_append_group vicharak audio
 user_append_group vicharak video
