@@ -12,7 +12,7 @@ __yz-update-overlays() {
 	case $ACTION in
 	configure)
 		echo "Updating overlays for $ABI ..."
-		reset_overlays "$ABI" "$(get_soc_vendor)"
+		reset_overlays "$ABI" "$(get_soc_vendor)" "true"
 		;;
 	remove) ;;
 	esac

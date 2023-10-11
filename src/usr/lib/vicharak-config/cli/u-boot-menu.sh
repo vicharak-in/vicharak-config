@@ -91,10 +91,20 @@ __reset_overlays_worker() {
 reset_overlays() {
 	load_u-boot_setting
 
-	local version="$1" vendor="$2" dtbos i
+	local version="$1" vendor="$2" keep_active_enabled="$3" dtbos i
 	local old_overlays new_overlays enabled_overlays=()
+	local keep_enabled=()
 	old_overlays="$(realpath "$U_BOOT_FDT_OVERLAYS_DIR")"
 	new_overlays="${old_overlays}_new"
+
+	# Save old enabled overlays
+	if [[ ${keep_active_enabled} == "true" ]]; then
+		while read -r overlay; do
+			keep_enabled+=("$(basename "${overlay}")")
+			echo "Enabled overlays = ${overlay}" >&2
+		done < <(find "${old_overlays}" -name "*.dtbo")
+	fi
+
 	if [[ -d "$old_overlays" ]]; then
 		cp -aR "$old_overlays" "$new_overlays"
 	else
@@ -136,6 +146,14 @@ reset_overlays() {
 			mv -- "$new_overlays/${i}.disabled" "$new_overlays/$i"
 		fi
 	done
+
+	if [[ ${keep_active_enabled} == "true" ]]; then
+		for i in "${keep_enabled[@]}"; do
+			if [[ -f "$new_overlays/${i}.disabled" ]]; then
+				mv -- "$new_overlays/${i}.disabled" "$new_overlays/$i"
+			fi
+		done
+	fi
 
 	rm -rf "${old_overlays}_old"
 	mv "$old_overlays" "${old_overlays}_old"
