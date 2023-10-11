@@ -1,3 +1,14 @@
+vicharak-config (0.0.7) focal; urgency=medium
+
+  * vicharak-config: tui: advanced: Add support for VNC server
+  * vicharak-config: Rename RBUILD to VICHARAK_BUILD
+  * vicharak-config: cli: gpu: Quietly return if no GPU packages found
+  * vicharak-config: Replace userdata with /usr/lib/vicharak-config
+  * vicharak-config: Add support to save overlay state during kernel upgrade
+  * vicharak-config: Modify default system password for Vicharak systems
+
+ -- UtsavBalar1231 <utsavbalar1231@gmail.com>  Wed, 11 Oct 2023 18:22:09 +0530
+
 vicharak-config (0.0.6) focal; urgency=medium
 
   [ UtsavBalar1231 ]
