@@ -11,7 +11,7 @@ VICHARAK_CONFIG_REBOOT="false"
 headless() {
 	local i
 	for i in /sys/class/drm/*/status; do
-		if [[ "$(cat "$i")" == "connected" ]]; then
+		if [[ "$(cat "$i")" == "connected" ]] && [[ ! ${i} =~ eDP ]]; then
 			return 1
 		fi
 	done
