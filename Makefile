@@ -85,6 +85,7 @@ dch: debian/changelog
 .PHONY: deb
 deb: debian
 	debuild --no-lintian --lintian-hook "lintian --suppress-tags bad-distribution-in-changes-file -- %p_%v_*.changes" --no-sign -b
+	mv -t . -u ../${PROJECT}[-_]*
 
 .PHONY: release
 release:
