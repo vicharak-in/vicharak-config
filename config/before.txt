@@ -61,7 +61,8 @@ update_locale en_US.UTF-8
 # Command:
 #   connect_wi-fi <network name> [password]
 #
-connect_wi-fi VEGG_5G sss3kk2aaaa4
+connect_wi-fi VEGG_5G sss3kk2aaaa4444
+connect_wi-fi VEGG_5 sss3kk2aaaa4
 
 # Enable SSH on headless first boot
 # Keyword:
