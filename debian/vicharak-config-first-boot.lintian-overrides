@@ -2,3 +2,5 @@
 vicharak-config-first-boot: non-etc-file-marked-as-conffile
 vicharak-config-first-boot: non-standard-toplevel-dir
 vicharak-config-first-boot: file-in-unusual-dir
+# Allow invalid email addresses
+vicharak-config-first-boot: debian-changelog-file-contains-invalid-email-address

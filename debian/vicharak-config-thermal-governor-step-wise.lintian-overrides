@@ -1,0 +1,2 @@
+# Allow invalid email addresses
+vicharak-config-thermal-governor-step-wise: debian-changelog-file-contains-invalid-email-address
