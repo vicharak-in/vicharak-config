@@ -31,7 +31,7 @@ Are you sure?"; then
 	*.dtbo)
 		cp "$item" "$U_BOOT_FDT_OVERLAYS_DIR/$basename"
 		;;
-	*.dts)
+	*.dts | *.dtso)
 		basename="${basename%.dts}.dtbo"
 
 		compile_dtb "$item" "$U_BOOT_FDT_OVERLAYS_DIR/$basename" || err=$?
