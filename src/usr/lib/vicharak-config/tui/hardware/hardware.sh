@@ -2,6 +2,7 @@
 # shellcheck disable=SC1090
 
 source "${ROOT_PATH}/usr/lib/vicharak-config/mod/config.sh"
+source "${ROOT_PATH}/usr/lib/vicharak-config/tui/hardware/gpio.sh"
 
 __hardware_gstreamer_test_picture() {
 	local temp
@@ -213,6 +214,7 @@ __hardware() {
 	menu_add __hardware_gpio_leds "GPIO LEDs"
 	menu_add __hardware_thermal "Thermal governor"
 	menu_add __hardware_dsi_mirror "Configure DSI display mirroring"
+    menu_add __hardware_gpio "40-pin GPIO"
 	if $DEBUG; then
 		menu_add __hardware_rgb_leds "RGB LEDs"
 	fi
