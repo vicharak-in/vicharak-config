@@ -1,3 +1,22 @@
+vicharak-config (0.0.8) focal; urgency=medium
+
+  [ UtsavBalar1231 ]
+  * (fixup): 1453cf5c2925c2a62b17ae57c61055eb62e4bd9e: vicharak-config: cli: gpu: Quietly return if no GPU packages found
+  * vicharak-config: Install first-boot configuration setup
+  * vicharak-config: Disable non-harmful lintian errors
+  * vicharak-config: Move local build output to current working directory
+  * vicharak-config: cli: Do not consider eDP as an actual display
+  * vicharak-config: Do not install before.txt from vicharak-config package
+  * vicharak-config: Avoid making configs as part of the package
+
+  [ ZHANG Yuntian ]
+  * vicharak-config: Short-circuit menu if only one option is available
+  * vicharak-config: Support dtso as overlay source file
+  * vicharak-config: Add live view for video test
+  * vicharak-config: hardware: add GPIO test functions
+
+ -- UtsavBalar1231 <utsavbalar1231@gmail.com>  Fri, 27 Oct 2023 09:55:45 +0530
+
 vicharak-config (0.0.7) focal; urgency=medium
 
   * vicharak-config: tui: advanced: Add support for VNC server
