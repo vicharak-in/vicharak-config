@@ -91,6 +91,11 @@ __overlay_filter_worker() {
 __overlay_filter() {
 	local temp="$1" nproc index
 	local dtbos=("$U_BOOT_FDT_OVERLAYS_DIR"/*.dtbo*)
+
+	if [[ ${#dtbos[@]} -eq 0 ]]; then
+		return
+	fi
+
 	mapfile -t index < <(eval "echo {0..$((${#dtbos[@]} - 1))}" | tr ' ' '\n')
 	nproc=$(nproc)
 
