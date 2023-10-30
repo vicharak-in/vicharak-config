@@ -1,10 +1,13 @@
 # shellcheck shell=bash
-# shellcheck disable=SC1090
 
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/advanced/docker/docker.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/advanced/gpu/gpu.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/advanced/ssh/ssh.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/advanced/display/display.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/advanced/docker/docker.sh
+source "/usr/lib/vicharak-config/tui/advanced/docker/docker.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/advanced/gpu/gpu.sh
+source "/usr/lib/vicharak-config/tui/advanced/gpu/gpu.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/advanced/ssh/ssh.sh
+source "/usr/lib/vicharak-config/tui/advanced/ssh/ssh.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/advanced/display/display.sh
+source "/usr/lib/vicharak-config/tui/advanced/display/display.sh"
 
 __advanced() {
 	menu_init

@@ -1,7 +1,7 @@
 # shellcheck shell=bash
 
 # Provides remove_packages
-# shellcheck disable=SC1091
+# shellcheck source=src/usr/lib/vicharak-config/mod/pkg.sh
 source "/usr/lib/vicharak-config/mod/pkg.sh"
 
 ALLOWED_VICHARAK_CONFIG_FUNC+=("request_reboot" "headless" "no_fail")

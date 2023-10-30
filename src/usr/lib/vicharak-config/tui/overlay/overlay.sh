@@ -1,8 +1,11 @@
 # shellcheck shell=bash
-# shellcheck disable=SC1090
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/hwid.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/pkg.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
+
+# shellcheck source=src/usr/lib/vicharak-config/mod/hwid.sh
+source "/usr/lib/vicharak-config/mod/hwid.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/pkg.sh
+source "/usr/lib/vicharak-config/mod/pkg.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/overlay.sh
+source "/usr/lib/vicharak-config/mod/overlay.sh"
 
 __overlay_install() {
 	if ! __depends_package "Install 3rd party overlay" "gcc" "linux-headers-$(uname -r)"; then

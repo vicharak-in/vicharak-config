@@ -1,8 +1,9 @@
 # shellcheck shell=bash
-# shellcheck disable=SC1090
 
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/config.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/hardware/gpio.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/config.sh
+source "/usr/lib/vicharak-config/mod/config.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/hardware/gpio.sh
+source "/usr/lib/vicharak-config/tui/hardware/gpio.sh"
 
 __hardware_gstreamer_test_picture() {
 	local temp

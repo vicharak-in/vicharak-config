@@ -1,6 +1,9 @@
 # shellcheck shell=bash
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/block_helpers.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/hwid.sh"
+
+# shellcheck source=src/usr/lib/vicharak-config/mod/block_helpers.sh
+source "/usr/lib/vicharak-config/mod/block_helpers.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/hwid.sh
+source "/usr/lib/vicharak-config/mod/hwid.sh"
 
 ALLOWED_VICHARAK_CONFIG_FUNC+=("update_hostname" "update_locale" "enable_service" "disable_service" "resize_root" "set_thermal_governor" "set_led_trigger")
 

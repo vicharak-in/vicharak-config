@@ -1,6 +1,7 @@
 # shellcheck shell=bash
-# shellcheck disable=SC1090
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
+
+# shellcheck source=src/usr/lib/vicharak-config/mod/overlay.sh
+source "/usr/lib/vicharak-config/mod/overlay.sh"
 
 ALLOWED_VICHARAK_CONFIG_FUNC+=("load_u-boot_setting")
 

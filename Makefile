@@ -11,21 +11,32 @@ all: build
 # Development
 #
 
+.PHONY: overlay
+overlay:
+	$(eval OVERLAY_DIR := $(shell mktemp -d))
+	sudo mount -t overlay overlay -o lowerdir=/,upperdir=${PWD}/src,workdir=${PWD}/overlay $(OVERLAY_DIR)
+	sudo systemd-nspawn --link-journal no -D $(OVERLAY_DIR) $(OVERLAY_CMD) || true
+	sudo umount $(OVERLAY_DIR)
+	rmdir $(OVERLAY_DIR)
+
 .PHONY: run
-run:
-	src/usr/bin/vicharak-config
+run: OVERLAY_CMD := $(PROJECT)
+run: overlay
 
 .PHONY: debug
-debug: sudo bash -c "DEBUG=true /usr/bin/vicharak-config"
+debug: OVERLAY_CMD := bash -c "DEBUG=true /usr/bin/vicharak-config"
+debug: overlay
 
 .PHONY: shell
-shell: bash
+shell: OVERLAY_CMD := bash
+shell: overlay
 
 #
 # Test
 #
 .PHONY: test
 test:
+	find src -type f \( -name "*.sh" -o -name "vicharak-config" \) -exec shellcheck --source-path=./src --external-sources {} +
 
 #
 # Build

@@ -1,13 +1,17 @@
 # shellcheck shell=bash
-# shellcheck disable=SC1090
 
 ALLOWED_VICHARAK_CONFIG_FUNC+=("__overlay_install" "__overlay_list" "__overlay_manage" "__overlay_reset" "__overlay_info")
 
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/hwid.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/pkg.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/overlay.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/basic.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/checklist.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/hwid.sh
+source "/usr/lib/vicharak-config/mod/hwid.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/pkg.sh
+source "/usr/lib/vicharak-config/mod/pkg.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/overlay.sh
+source "/usr/lib/vicharak-config/mod/overlay.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/dialog/basic.sh
+source "/usr/lib/vicharak-config/mod/dialog/basic.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/dialog/select.sh
+source "/usr/lib/vicharak-config/mod/dialog/checklist.sh"
 
 __check_sudo() {
 	if ((EUID != 0)); then

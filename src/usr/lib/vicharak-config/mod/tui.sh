@@ -1,10 +1,15 @@
 # shellcheck shell=bash
 
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/basic.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/menu.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/checklist.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/radiolist.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/dialog/select.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/dialog/basic.sh
+source "/usr/lib/vicharak-config/mod/dialog/basic.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/dialog/menu.sh
+source "/usr/lib/vicharak-config/mod/dialog/menu.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/dialog/checklist.sh
+source "/usr/lib/vicharak-config/mod/dialog/checklist.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/dialog/radiolist.sh
+source "/usr/lib/vicharak-config/mod/dialog/radiolist.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/dialog/select.sh
+source "/usr/lib/vicharak-config/mod/dialog/select.sh"
 
 VICHARAK_CONFIG_SCREEN=()
 

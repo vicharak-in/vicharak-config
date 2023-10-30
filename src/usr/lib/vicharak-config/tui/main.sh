@@ -1,24 +1,26 @@
 # shellcheck shell=bash
-# shellcheck disable=SC1090
 
-if git status &>/dev/null && [[ -f "$PWD/src/usr/bin/vicharak-config" ]]; then
-	ROOT_PATH="${ROOT_PATH:-"$PWD"}/src"
-else
-	ROOT_PATH="${ROOT_PATH:-}"
-fi
+# shellcheck source=src/usr/lib/vicharak-config/mod/tui.sh
+source "/usr/lib/vicharak-config/mod/tui.sh"
 
-source "${ROOT_PATH}/usr/lib/vicharak-config/mod/tui.sh"
-
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/overlay/overlay.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/comm/comm.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/hardware/hardware.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/local/local.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/system/system.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/advanced/advanced.sh"
-source "${ROOT_PATH}/usr/lib/vicharak-config/tui/user/user.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/overlay/overlay.sh
+source "/usr/lib/vicharak-config/tui/overlay/overlay.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/comm/comm.sh
+source "/usr/lib/vicharak-config/tui/comm/comm.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/hardware/hardware.sh
+source "/usr/lib/vicharak-config/tui/hardware/hardware.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/local/local.sh
+source "/usr/lib/vicharak-config/tui/local/local.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/system/system.sh
+source "/usr/lib/vicharak-config/tui/system/system.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/advanced/advanced.sh
+source "/usr/lib/vicharak-config/tui/advanced/advanced.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/user/user.sh
+source "/usr/lib/vicharak-config/tui/user/user.sh"
 
 if $DEBUG; then
-	source "${ROOT_PATH}/usr/lib/vicharak-config/tui/test/test.sh"
+	# shellcheck source=src/usr/lib/vicharak-config/tui/test/test.sh
+	source "/usr/lib/vicharak-config/tui/test/test.sh"
 fi
 
 __tui_about() {
