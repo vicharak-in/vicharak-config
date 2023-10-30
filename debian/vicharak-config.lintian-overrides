@@ -5,5 +5,10 @@ vicharak-config: improbable-bug-number-in-closes
 vicharak-config: desktop-command-not-in-package
 vicharak-config: groff-message
 
+# Unfortunate result of using /config as the mount point
+vicharak-config: non-etc-file-marked-as-conffile
+vicharak-config: non-standard-toplevel-dir
+vicharak-config: file-in-unusual-dir
+
 # Allow invalid email addresses
 vicharak-config: debian-changelog-file-contains-invalid-email-address
