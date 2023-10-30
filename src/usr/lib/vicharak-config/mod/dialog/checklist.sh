@@ -61,3 +61,40 @@ checklist_emptymsg() {
 		msgbox "$1"
 	fi
 }
+
+checklist_show_cli() {
+	__parameter_count_check 1 "$@"
+
+	if ((${#VICHARAK_CONFIG_CHECKLIST[@]} == 0)); then
+		return 2
+	fi
+
+	echo -e "\n"
+	for ((i = 0; i < ${#VICHARAK_CONFIG_CHECKLIST[@]}; i += 3)); do
+		local tag="${VICHARAK_CONFIG_CHECKLIST[i]}"
+		local title="${VICHARAK_CONFIG_CHECKLIST[i + 1]}"
+		local status="${VICHARAK_CONFIG_CHECKLIST[i + 2]}"
+		echo "$tag: $title [$status]" >&2
+	done
+
+	echo -e "$1\n" >&2
+	read -r -a input
+
+	if [[ ${#input[*]} -eq 0 ]]; then
+		return 0
+	fi
+
+	if [[ "${input[0]}" == "q" ]]; then
+		return 1
+	fi
+
+	read -r -a VICHARAK_CONFIG_CHECKLIST_STATE_NEW <<<"${input[*]}"
+	for i in $(seq 2 3 ${#VICHARAK_CONFIG_CHECKLIST[@]}); do
+		VICHARAK_CONFIG_CHECKLIST[i]="OFF"
+	done
+
+	for i in "${VICHARAK_CONFIG_CHECKLIST_STATE_NEW[@]}"; do
+		i="${i//\"/}"
+		VICHARAK_CONFIG_CHECKLIST[i * 3 + 2]="ON"
+	done
+}
