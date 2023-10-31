@@ -3,10 +3,8 @@ on:
   workflow_dispatch:
   pull_request:
   push:
-
 permissions:
-      contents: write
-
+  contents: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,7 +24,7 @@ jobs:
           make all deb
       - name: Workaround actions/upload-artifact#176
         run: |
-          echo "artifacts_path=$(realpath ..)" >> $GITHUB_ENV
+          echo "artifacts_path=$(pwd)" >> $GITHUB_ENV
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
