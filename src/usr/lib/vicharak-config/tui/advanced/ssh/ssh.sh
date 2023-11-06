@@ -1,4 +1,8 @@
 # shellcheck shell=bash
+# shellcheck disable=SC2119
+
+# shellcheck source=src/usr/lib/vicharak-config/cli/ssh.sh
+source "/usr/lib/vicharak-config/cli/ssh.sh"
 
 __advanced_ssh_uninstall() {
 	if yesno "Are you sure to uninstall SSH service?"; then
