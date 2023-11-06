@@ -12,6 +12,31 @@ check_overlay_conflict_init() {
 	VICHARAK_CONFIG_OVERLAY_RESOURCE_OWNER=()
 }
 
+check_overlay_conflict_cli() {
+	local name resources res i
+	mapfile -t resources < <(parse_dtbo "$1" "exclusive")
+	mapfile -t name < <(parse_dtbo "$1" "title" "$(basename "$1")")
+
+	for res in "${resources[@]}"; do
+		if [[ "$res" == "null" ]]; then
+			continue
+		fi
+		if i="$(__in_array "$res" "${VICHARAK_CONFIG_OVERLAY_RESOURCES[@]}")"; then
+			echo "Resource conflict detected!
+
+'${name[0]}' and '${VICHARAK_CONFIG_OVERLAY_RESOURCE_OWNER[$i]}' both require the exclusive ownership of the following resource:
+
+${VICHARAK_CONFIG_OVERLAY_RESOURCES[$i]}
+
+Please only enable one of them." >&2
+			return 1
+		else
+			VICHARAK_CONFIG_OVERLAY_RESOURCES+=("$res")
+			VICHARAK_CONFIG_OVERLAY_RESOURCE_OWNER+=("${name[0]}")
+		fi
+	done
+}
+
 check_overlay_conflict() {
 	local name resources res i
 	mapfile -t resources < <(parse_dtbo "$1" "exclusive")

@@ -33,31 +33,27 @@ __dialog() {
 yesno() {
 	__parameter_count_check 1 "$@"
 
-	if [ -z "${CLI}" ]; then
-		__dialog --yesno "$1" 3>&1 1>&2 2>&3 3>&-
-	else
-		echo "$1" >&2
-		read -r input
+	__dialog --yesno "$1" 3>&1 1>&2 2>&3 3>&-
+}
 
-		if [[ "$input" == "yes" ]]; then
-			return 0
-		elif [[ "$input" == "no" ]]; then
-			return 1
-		else
-			echo "Please enter 'yes' or 'no'." >&2
-			CLI=1 yesno_cli "$1"
-		fi
+yesno_cli() {
+	echo "$1" >&2
+	read -r input
+
+	if [[ "$input" == "yes" ]]; then
+		return 0
+	elif [[ "$input" == "no" ]]; then
+		return 1
+	else
+		echo "Please enter 'yes' or 'no'." >&2
+		yesno_cli "$1"
 	fi
 }
 
 msgbox() {
 	__parameter_count_check 1 "$@"
 
-	if [ -z "${CLI}" ]; then
-		__dialog --msgbox "$1"
-	else
-		echo "$1" >&2
-	fi
+	__dialog --msgbox "$1"
 }
 
 inputbox() {

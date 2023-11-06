@@ -62,6 +62,14 @@ checklist_emptymsg() {
 	fi
 }
 
+checklist_emptymsg_cli() {
+	__parameter_count_check 1 "$@"
+
+	if ((${#VICHARAK_CONFIG_CHECKLIST[@]} == 0)); then
+		echo "$1" >&2
+	fi
+}
+
 checklist_show_cli() {
 	__parameter_count_check 1 "$@"
 

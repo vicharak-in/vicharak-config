@@ -24,11 +24,11 @@ __overlay_install() {
 	__check_sudo "$0"
 	__parameter_count_check 1 "$@"
 
-	if ! __depends_package "Install 3rd party overlay" "gcc" "linux-headers-$(uname -r)"; then
+	if ! __depends_package_cli "Install 3rd party overlay" "gcc" "linux-headers-$(uname -r)"; then
 		return
 	fi
 
-	if ! CLI=1 yesno "3rd party overlay could physically damage your system.
+	if ! yesno_cli "3rd party overlay could physically damage your system.
 In addition, they may miss important metadata for vicharak-config to recognize correctly.
 This means if you ever run 'Manage overlay' function again, your custom overlays
 might be disabled, and you will have to manually reenable them.
@@ -38,7 +38,17 @@ Are you sure? (yes/no)"; then
 	fi
 
 	local item basename err=0
-	item="$1"
+	item="${1}"
+
+	if [ -z "${item}" ]; then
+		echo "Please provide path to overlay file as input." >&2
+		return
+	fi
+
+	if [ ! -f "${item}" ]; then
+		echo "No such overlay file, check your path." >&2
+		return
+	fi
 
 	load_u-boot_setting
 
@@ -55,29 +65,29 @@ Are you sure? (yes/no)"; then
 		case $err in
 		0) : ;;
 		1)
-			echo Unable to preprocess the source code! >&2
+			echo "Unable to preprocess the source code!" >&2
 			return
 			;;
 		2)
-			echo Unable to compile the source code! >&2
+			echo "Unable to compile the source code!" >&2
 			return
 			;;
 		*)
-			echo Unknown error $err occured during compilation. >&2
+			echo "Unknown error $err occured during compilation." >&2
 			return
 			;;
 		esac
 		;;
 	*)
-		echo Unknown file format: "${basename}" >&2
+		echo "Unknown file format: ${basename}" >&2
 		return
 		;;
 	esac
 
 	if u-boot-update >/dev/null; then
-		echo Selected overlays will be enabled at next boot. >&2
+		echo "Selected overlays will be enabled at next boot." >&2
 	else
-		echo Unable to update the boot config. >&2
+		echo "Unable to update the boot config." >&2
 	fi
 }
 
@@ -142,7 +152,7 @@ __overlay_list() {
 		checklist_add "${items[0]/$'\n'/}" "${items[1]/$'\n'/}" "${items[2]/$'\n'/}"
 		items=("${items[@]:3}")
 	done
-	checklist_emptymsg "Unable to find any compatible overlay under $U_BOOT_FDT_OVERLAYS_DIR."
+	checklist_emptymsg_cli "Unable to find any compatible overlay under $U_BOOT_FDT_OVERLAYS_DIR."
 }
 
 __overlay_show() {
@@ -166,7 +176,7 @@ __overlay_validate() {
 	check_overlay_conflict_init
 	for i in "${VICHARAK_CONFIG_CHECKLIST_STATE_NEW[@]}"; do
 		item="$(checklist_getitem "$i")"
-		if ! CLI=1 check_overlay_conflict "$U_BOOT_FDT_OVERLAYS_DIR/$item"*; then
+		if ! check_overlay_conflict_cli "$U_BOOT_FDT_OVERLAYS_DIR/$item"*; then
 			return 1
 		fi
 
@@ -174,7 +184,7 @@ __overlay_validate() {
 		mapfile -t title < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "title" "$(basename "$item")")
 		mapfile -t package < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "package")
 		if [[ "${package[0]}" != "null" ]]; then
-			if ! __depends_package "${title[0]}" "${package[@]}"; then
+			if ! __depends_package_cli "${title[0]}" "${package[@]}"; then
 				echo "Failed to install required packages for '${title[0]}'." >&2
 				return 1
 			fi
@@ -208,9 +218,9 @@ __overlay_manage() {
 	done
 
 	if u-boot-update >/dev/null; then
-		echo Selected overlays will be enabled at next boot. >&2
+		echo Selected "overlays will be enabled at next boot." >&2
 	else
-		echo Unable to update the boot config. >&2
+		echo "Unable to update the boot config." >&2
 	fi
 }
 
@@ -248,7 +258,7 @@ $description
 __overlay_reset() {
 	__check_sudo "$0"
 
-	if ! CLI=1 yesno "WARNING
+	if yesno_cli "WARNING
 
 All installed overlays will be reset to current running kernel's default.
 All enabled overlays will be disabled.
@@ -266,5 +276,4 @@ Enter (yes/no) to continue.
 	else
 		echo "Unable to reset overlays" >&2
 	fi
-
 }
