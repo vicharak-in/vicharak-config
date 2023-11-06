@@ -1,3 +1,17 @@
+vicharak-config (0.0.9) focal; urgency=medium
+
+  * vicharak-config: tui: Return if there are no overlay files
+  * vicharak-config: cli: u-boot-menu: Add support for alternative DTBO path
+  * vicharak-config: Add support for CLI based overlay manager
+  * Revert "vicharak-config: Avoid making configs as part of the package"
+  * vicharak-config: Refactor scripts for local run
+  * vicharak-config: Fix artifacts path for release CI
+  * vicharak-config: Fix CLI commands usage
+  * vicharak-config: Refactor x11vnc server setup
+  * vicharak-config: Fix missing source file on ssh TUI
+
+ -- UtsavBalar1231 <utsavbalar1231@gmail.com>  Mon, 06 Nov 2023 12:55:24 +0530
+
 vicharak-config (0.0.8) focal; urgency=medium
 
   [ UtsavBalar1231 ]
