@@ -15,7 +15,7 @@ source "/usr/lib/vicharak-config/cli/main.sh"
 VICHARAK_CONFIG_EXEC_NAME="$(basename "$0")"
 if (($# == 0)) && [[ "$VICHARAK_CONFIG_EXEC_NAME" == "vicharak-config" ]]; then
 	if ((EUID != 0)); then
-		if [[ -n "${DISPLAY:-}" ]]; then
+		if [[ -n "${DISPLAY:-}" ]] && [[ -z "${SSH_TTY:-}" ]]; then
 			exec pkexec "$0" "$@"
 		else
 			exec sudo "$0" "$@"
