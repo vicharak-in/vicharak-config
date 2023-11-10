@@ -47,7 +47,7 @@ menu_show() {
 	__parameter_count_check 1 "$@"
 
 	local item
-	if item=$(__dialog --menu "$1" "${VICHARAK_CONFIG_MENU[@]}" 3>&1 1>&2 2>&3 3>&-); then
+	if item=$(__dialog --menu "$1" "${VICHARAK_CONFIG_MENU[@]}"); then
 		VICHARAK_CONFIG_MENU_SELECTED="$(menu_getitem "$item")"
 		push_screen "${VICHARAK_CONFIG_MENU_CALLBACK[$item]}"
 	fi
@@ -57,7 +57,7 @@ menu_call() {
 	__parameter_count_check 1 "$@"
 
 	local item
-	if item=$(__dialog --menu "$1" "${VICHARAK_CONFIG_MENU[@]}" 3>&1 1>&2 2>&3 3>&-); then
+	if item=$(__dialog --menu "$1" "${VICHARAK_CONFIG_MENU[@]}"); then
 		VICHARAK_CONFIG_MENU_SELECTED="$(menu_getitem "$item")"
 		${VICHARAK_CONFIG_MENU_CALLBACK[$item]}
 	else

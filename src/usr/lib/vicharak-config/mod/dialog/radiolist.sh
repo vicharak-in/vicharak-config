@@ -33,7 +33,7 @@ radiolist_show() {
 	fi
 
 	local output i
-	if output="$(__dialog --radiolist "$1" "${VICHARAK_CONFIG_RADIOLIST[@]}" 3>&1 1>&2 2>&3 3>&-)"; then
+	if output="$(__dialog --radiolist "$1" "${VICHARAK_CONFIG_RADIOLIST[@]}")"; then
 		read -r -a VICHARAK_CONFIG_RADIOLIST_STATE_NEW <<<"$output"
 		for i in $(seq 2 3 ${#VICHARAK_CONFIG_RADIOLIST[@]}); do
 			VICHARAK_CONFIG_RADIOLIST[i]="OFF"

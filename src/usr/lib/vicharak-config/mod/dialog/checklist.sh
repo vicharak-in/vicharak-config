@@ -34,7 +34,7 @@ checklist_show() {
 	fi
 
 	local output i
-	if output="$(__dialog --checklist "$1" "${VICHARAK_CONFIG_CHECKLIST[@]}" 3>&1 1>&2 2>&3 3>&-)"; then
+	if output="$(__dialog --checklist "$1" "${VICHARAK_CONFIG_CHECKLIST[@]}")"; then
 		read -r -a VICHARAK_CONFIG_CHECKLIST_STATE_NEW <<<"$output"
 		for i in $(seq 2 3 ${#VICHARAK_CONFIG_CHECKLIST[@]}); do
 			VICHARAK_CONFIG_CHECKLIST[i]="OFF"
