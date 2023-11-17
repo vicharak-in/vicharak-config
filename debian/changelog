@@ -1,3 +1,17 @@
+vicharak-config (0.1.0) focal; urgency=medium
+
+  [ UtsavBalar1231 ]
+  * Revert "vicharak-config: Short-circuit menu if only one option is available"
+
+  [ ZHANG Yuntian ]
+  * vicharak-config: Support command substitution for dialog functions
+  * vicharak-config: Don't run pkexec if we are in SSH session
+
+  [ UtsavBalar1231 ]
+  * vicharak-config: Fix JSON parsing for compatible DTBOs
+
+ -- UtsavBalar1231 <utsavbalar1231@gmail.com>  Fri, 17 Nov 2023 14:51:10 +0530
+
 vicharak-config (0.0.9) focal; urgency=medium
 
   * vicharak-config: tui: Return if there are no overlay files
