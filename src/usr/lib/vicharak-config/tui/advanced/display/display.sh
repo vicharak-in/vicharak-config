@@ -228,10 +228,7 @@ __advanced_vncserver() {
 		menu_add __advanced_install_vncserver "Install X11 VNC server"
 	fi
 
-	local cur_status
-	cur_status="$(systemctl is-enabled vncserver.service)"
-
-	if [[ "$cur_status" == "enabled" ]]; then
+	if [[ "$(systemctl is-enabled vncserver.service)" == "enabled" ]]; then
 		menu_add __advanced_disable_vncserver "Disable X11 VNC server"
 	else
 		menu_add __advanced_enable_vncserver "Enable X11 VNC server"
