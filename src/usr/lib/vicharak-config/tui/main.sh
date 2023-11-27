@@ -24,9 +24,15 @@ if $DEBUG; then
 fi
 
 __tui_about() {
-	msgbox "vicharak-config - Vicharak system setup utility
-
+	local version
+	version="$(dpkg -s vicharak-config | grep -w "^Version:" | awk '{print $2}')"
+	if [ -z "$version" ]; then
+		msgbox "vicharak-config - Vicharak system setup utility
 Copyright $(date +%Y) Vicharak Computers LLP"
+	else
+		msgbox "vicharak-config ($version) - Vicharak system setup utility
+Copyright $(date +%Y) Vicharak Computers LLP"
+	fi
 }
 
 __tui_main() {
