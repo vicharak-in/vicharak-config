@@ -1,8 +1,5 @@
 # shellcheck shell=bash
-# shellcheck disable=SC2086,SC2119
-
-# shellcheck source=src/usr/lib/vicharak-config/cli/vncserver.sh
-source "/usr/lib/vicharak-config/cli/vncserver.sh"
+# shellcheck disable=SC2086
 
 __select_resolution_options() {
 	local selected_resolution_option=""
@@ -176,71 +173,10 @@ Please check if the screen is connected and powered on."
 	fi
 }
 
-__advanced_enable_vncserver() {
-	if yesno "Are you sure to enable X11VNC server?"; then
-		if enable_vncserver; then
-			msgbox "Successfully enabled X11 VNC server.\nStart the server with 'x11vnc' command."
-		else
-			msgbox "Failed to enable X11VNC server."
-			return
-		fi
-	fi
-}
-
-__advanced_install_vncserver() {
-	if yesno "Are you sure to install server?"; then
-		if ! install_vncserver; then
-			msgbox "Unable to install X11VNC server."
-			return
-		else
-			msgbox "Successfully installed X11VNC server."
-		fi
-	fi
-}
-
-__advanced_disable_vncserver() {
-	if yesno "Are you sure to disable X11VNC server?"; then
-		if disable_vncserver; then
-			msgbox "Successfully disabled X11 VNC server."
-		else
-			msgbox "Failed to disable X11VNC server."
-			return
-		fi
-	fi
-}
-
-__advanced_remove_vncserver() {
-	if yesno "Are you sure to uninstall X11VNC server?"; then
-		if ! uninstall_vncserver; then
-			msgbox "Unable to uninstall X11VNC server."
-			return
-		else
-			msgbox "Successfully uninstalled X11VNC server."
-		fi
-	fi
-}
-
-__advanced_vncserver() {
-	menu_init
-	if __is_installed x11vnc; then
-		menu_add __advanced_remove_vncserver "Uninstall X11 VNC server"
-	else
-		menu_add __advanced_install_vncserver "Install X11 VNC server"
-	fi
-
-	if [[ "$(systemctl is-enabled vncserver.service)" == "enabled" ]]; then
-		menu_add __advanced_disable_vncserver "Disable X11 VNC server"
-	else
-		menu_add __advanced_enable_vncserver "Enable X11 VNC server"
-	fi
-
-	menu_show "Please select an option below:"
-}
-
 __advanced_display() {
 	menu_init
 	menu_add __advanced_set_display_resolution "Set display resolution"
-	menu_add __advanced_vncserver "X11VNC Server"
+	menu_add __advanced_vncserver "VNC Server"
 
 	menu_show "Advanced Display"
 }
