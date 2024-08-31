@@ -5,25 +5,25 @@ shopt -s nullglob
 install_vncserver() {
 	__parameter_count_check 0 "$@"
 	apt-get update -y
-	apt-get install xfonts-base tightvncserver autocutsel -y
+	apt install x11vnc -y
 }
 
 uninstall_vncserver() {
 	__parameter_count_check 0 "$@"
 
 	disable_vncserver "$@"
-	apt-get purge tightvncserver -y
+	apt purge x11vnc -y
 }
 
 enable_vncserver() {
 	__parameter_count_check 0 "$@"
 
-	if systemctl is-enabled vncserver.service >/dev/null 2>&1; then
+	if systemctl is-active vnc.service >/dev/null 2>&1; then
 		# check if vncserver is running
-		if systemctl is-active vncserver.service >/dev/null 2>&1; then
-			systemctl stop vncserver.service >/dev/null 2>&1
+		if systemctl is-active vnc.service >/dev/null 2>&1; then
+			systemctl stop vnc.service >/dev/null 2>&1
 		else
-			systemctl disable --now vncserver.service >/dev/null 2>&1
+			systemctl disable --now vnc.service >/dev/null 2>&1
 		fi
 	fi
 
@@ -45,8 +45,8 @@ enable_vncserver() {
 		rm -rf "${files[@]}"
 	fi
 
-	systemctl enable --now vncserver.service >/dev/null 2>&1
-	systemctl start vncserver.service >/dev/null 2>&1
+	systemctl enable --now vnc.service >/dev/null 2>&1
+	systemctl start vnc.service >/dev/null 2>&1
 }
 
 disable_vncserver() {
@@ -70,9 +70,9 @@ disable_vncserver() {
 		rm -rf "${files[@]}"
 	fi
 
-	# check if systemd service is enabled
-	if systemctl is-enabled vncserver.service >/dev/null 2>&1; then
-		systemctl stop vncserver.service >/dev/null 2>&1
-		systemctl disable --now vncserver.service >/dev/null 2>&1
+	# check if systemd service is active
+	if systemctl is-active vnc.service >/dev/null 2>&1; then
+		systemctl stop vnc.service >/dev/null 2>&1
+		systemctl disable --now vnc.service >/dev/null 2>&1
 	fi
 }
