@@ -1,3 +1,9 @@
+vicharak-config (0.1.2) jammy; urgency=medium
+
+  * vicharak-config: tui: Set board specific header pin count
+
+ -- shailparmar03 <shailparmar26@gmail.com>  Thu, 26 Sep 2024 18:21:33 +0530
+
 vicharak-config (0.1.1) stable; urgency=medium
 
   [ Pratiksha0102 ]
