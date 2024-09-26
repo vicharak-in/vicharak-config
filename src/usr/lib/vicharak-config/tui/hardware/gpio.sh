@@ -14,10 +14,21 @@ __hardware_gpio_fmt() {
 	fi
 }
 
+__get_gpio_pin_count() {
+	if grep -a -i axon /sys/firmware/devicetree/base/model > /dev/null; then
+		echo 30  # Axon model has 30 pins
+	elif grep -a -i vaaman /sys/firmware/devicetree/base/model > /dev/null; then
+		echo 40  # Vaaman model has 40 pins
+	fi
+}
+
 __hardware_gpio_set() {
 	local i level="$1" gpio=() states=()
 
-	for i in {1..40}; do
+	local gpio_pin_count
+	gpio_pin_count=$(__get_gpio_pin_count)
+
+	for i in $(seq 1 "$gpio_pin_count"); do
 		if gpiofind "PIN_$i" >/dev/null; then
 			read -ra gpio < <(gpiofind "PIN_$i")
 			if gpioset "${gpio[0]}" "${gpio[1]}=$level"; then
@@ -57,7 +68,10 @@ __hardware_gpio_set_low() {
 __hardware_gpio_get() {
 	local i level gpio=() states=()
 
-	for i in {1..40}; do
+	local gpio_pin_count
+	gpio_pin_count=$(__get_gpio_pin_count)
+
+	for i in $(seq 1 "$gpio_pin_count"); do
 		if gpiofind "PIN_$i" >/dev/null; then
 			read -ra gpio < <(gpiofind "PIN_$i")
 			if level="$(gpioget "${gpio[@]}" 2>/dev/null)"; then
