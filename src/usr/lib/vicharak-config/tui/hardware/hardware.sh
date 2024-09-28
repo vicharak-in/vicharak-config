@@ -210,12 +210,16 @@ To return to normal mode, please use your desktop environment's display setup to
 }
 
 __hardware() {
+
+	local gpio_pin_count
+	gpio_pin_count=$(__get_gpio_pin_count)
+
 	menu_init
 	menu_add __hardware_video "Video capture devices"
 	menu_add __hardware_gpio_leds "GPIO LEDs"
 	menu_add __hardware_thermal "Thermal governor"
 	menu_add __hardware_dsi_mirror "Configure DSI display mirroring"
-    menu_add __hardware_gpio "40-pin GPIO"
+	menu_add __hardware_gpio "${gpio_pin_count}-pin GPIO"
 	if $DEBUG; then
 		menu_add __hardware_rgb_leds "RGB LEDs"
 	fi
