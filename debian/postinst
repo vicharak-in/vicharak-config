@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+board=$(cat /sys/firmware/devicetree/base/model | awk '{print tolower($3)}')
+echo "deb http://apt.vicharak.in/ stable main" > /etc/apt/sources.list.d/vicharak.list
+echo "deb http://apt.vicharak.in/ ${board}-stable ${board}" >> /etc/apt/sources.list.d/vicharak.list
+
+exit 0
