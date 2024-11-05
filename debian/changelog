@@ -1,3 +1,9 @@
+vicharak-config (0.1.6) jammy; urgency=medium
+
+  * tui: gpio: Add note for Get all GPIO state
+
+ -- shailparmar03 <shailparmar26@gmail.com>  Tue, 05 Nov 2024 17:23:38 +0530
+
 vicharak-config (0.1.5) jammy; urgency=medium
 
   * debian: postinst: Update debian postinst script

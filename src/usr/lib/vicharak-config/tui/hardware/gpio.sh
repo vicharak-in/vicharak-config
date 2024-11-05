@@ -94,7 +94,14 @@ $(for i in {0..19}; do
 		printf "$(__hardware_gpio_fmt "$i")" \
 			"${states[i * 2]}" "$((i * 2 + 1))" \
 			"$((i * 2 + 2))" "${states[i * 2 + 1]}"
-	done)" #" # Workaround VS Code incorrect code highlighting
+	done)
+
+-----------------------------------------------------------------------------
+Note:   You are reading GPIO pins configured in input mode on the header.
+        This setup allows for sensing voltage levels on the GPIO pins,
+        rather than retrieving previously set output values.
+-----------------------------------------------------------------------------"
+
 }
 
 __hardware_gpio() {
