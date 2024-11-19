@@ -1,3 +1,9 @@
+vicharak-config (0.1.7) jammy; urgency=medium
+
+  * cli: u-boot-menu: Use kernel specific overlays dir
+
+ -- shailparmar03 <shailparmar26@gmail.com>  Tue, 19 Nov 2024 17:08:34 +0530
+
 vicharak-config (0.1.6) jammy; urgency=medium
 
   * tui: gpio: Add note for Get all GPIO state
