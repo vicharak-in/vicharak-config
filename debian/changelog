@@ -1,3 +1,9 @@
+vicharak-config (0.1.9) jammy; urgency=medium
+
+  * tool : Update rtk_hciattach for bluetooth
+
+ -- avi951 <avi.shihora.w23@gmail.com>  Mon, 27 Jan 2025 12:08:37 +0530
+
 vicharak-config (0.1.8) jammy; urgency=medium
 
   * debian: Add mountboot.sh to post installation script
