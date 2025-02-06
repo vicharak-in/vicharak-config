@@ -187,7 +187,7 @@ reset_overlays() {
 
 parse_dtbo() {
 	local output
-	output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0].metadata.$2[0]" | tr '\0' '\n')"
+	output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0][].__overlay__.metadata.$2[0]" | tr '\0' '\n')"
 
 	if [[ "${output}" == "null" ]]; then
 		# Try parsing the metadata property with an alternative path
