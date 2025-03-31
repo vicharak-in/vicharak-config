@@ -1,0 +1,13 @@
+[Unit]
+Description= Vicharak Config Advanced USB Service
+Documentation=https://github.com/vicharak-in/vicharak-config/
+After=multi-user.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/bin/bash /usr/lib/vicharak-config/tui/advanced/usb/_advanced_usb.sh %i start
+ExecStop=/bin/bash /usr/lib/vicharak-config/tui/advanced/usb/_advanced_usb.sh %i stop
+
+[Install]
+WantedBy=multi-user.target

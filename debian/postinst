@@ -33,4 +33,6 @@ echo "Mount operation completed successfully."
 EOF
 	chmod 0755 "/etc/init.d/mountboot.sh"
 
+systemctl daemon-reload && systemctl enable --now advanced-usb@tethering
+
 exit 0
