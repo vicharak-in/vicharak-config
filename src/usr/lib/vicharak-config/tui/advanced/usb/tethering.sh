@@ -46,11 +46,19 @@ EOF
 	echo "Systemd-networkd restarted!"
 }
 
+__configure_iptables() {
+	#TODO: do something of hardcoded interface names?
+	echo "Configuring NAT for usb0 to use end1 for internet access."
+	iptables -t nat -A POSTROUTING -o end1 -s 10.42.0.0/24 -j MASQUERADE && \
+		sysctl -w net.ipv4.ip_forward=1
+}
+
 __advanced_usb_tethering_enable() {
 	__usb_init_gadget
 	__rndis_enable
 	__usb_enable_gadget
 	__rndis_configure_network
+	__configure_iptables
 	echo "USB tethering enabled!"
 }
 
