@@ -10,6 +10,8 @@ source "/usr/lib/vicharak-config/tui/advanced/ssh/ssh.sh"
 source "/usr/lib/vicharak-config/tui/advanced/display/display.sh"
 # shellcheck source=src/usr/lib/vicharak-config/tui/advanced/vnc/vncserver.sh
 source "/usr/lib/vicharak-config/tui/advanced/vnc/vncserver.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/advanced/usb/usb.sh
+source "/usr/lib/vicharak-config/tui/advanced/usb/usb.sh"
 
 __advanced() {
 	menu_init
@@ -18,5 +20,6 @@ __advanced() {
 	menu_add __advanced_display "Display Options"
 	menu_add __advanced_vncserver "VNC Server"
 	#menu_add __advanced_ssh             "SSH"
+	menu_add __advanced_usb "USB Advanced features"
 	menu_show "Please select an option below:"
 }

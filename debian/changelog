@@ -1,3 +1,9 @@
+vicharak-config (0.1.10) jammy; urgency=medium
+
+  * tui: advanced: Add support for USB tethering
+
+ -- peonix0 <ajeetsinghchahar2@gmail.com>  Mon, 1 Apr 2025 12:08:37 +0530
+
 vicharak-config (0.1.9) jammy; urgency=medium
 
   * tool : Update rtk_hciattach for bluetooth
