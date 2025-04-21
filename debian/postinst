@@ -1,6 +1,54 @@
 #!/bin/sh
 set -e
 
+update_partuuids() {
+	if ischroot; then
+		return
+	fi
+
+	EXTLINUX_CONF="/boot/extlinux/extlinux.conf"
+
+	if [ ! -f "$EXTLINUX_CONF" ]; then
+		exit 1
+	fi
+
+	OLD_PARTUUID=$(grep -oP 'PARTUUID=\K[^\s]+' "$EXTLINUX_CONF" | head -n1)
+	if [ -z "$OLD_PARTUUID" ]; then
+		echo "ERROR: PARTUUID not found in $EXTLINUX_CONF!"
+		exit 1
+	fi
+
+	DEVICE_PART=$(blkid -o device -t PARTUUID="$OLD_PARTUUID")
+	if [ -z "$DEVICE_PART" ]; then
+		echo "ERROR: No partition found for $OLD_PARTUUID!"
+		exit 1
+	fi
+
+	DISK_DEVICE=$(lsblk -no PKNAME "$DEVICE_PART")
+	DISK_DEVICE="/dev/${DISK_DEVICE}"
+
+	echo "Updating PARTUUIDs on $DISK_DEVICE ..."
+
+	if ! sgdisk --randomize-guids "$DISK_DEVICE"; then
+		echo "ERROR: Failed to randomize GUIDs!"
+		exit 1
+	fi
+
+	NEW_PARTUUID=$(blkid -o value -s PARTUUID "$DEVICE_PART")
+	if [ -z "$NEW_PARTUUID" ]; then
+		echo "ERROR: Could not get new PARTUUID!"
+		exit 1
+	fi
+
+	echo "Reloading the partition table ..."
+	partprobe "$DISK_DEVICE"
+
+	echo "Updating ${EXTLINUX_CONF} ..."
+	sed -i "s/PARTUUID=${OLD_PARTUUID}/PARTUUID=${NEW_PARTUUID}/g" "$EXTLINUX_CONF"
+
+	echo "PARTUUID UPDATED" > /usr/local/first_boot_flag
+}
+
 board=$(cat /sys/firmware/devicetree/base/model | awk '{print tolower($3)}')
 
 if ! grep -q "${board}" /etc/apt/sources.list.d/vicharak.list; then
@@ -34,5 +82,10 @@ EOF
 	chmod 0755 "/etc/init.d/mountboot.sh"
 
 systemctl daemon-reload && systemctl enable --now advanced-usb@tethering
+
+# Run PARTUUID update if not done
+if [ ! -s "/usr/local/first_boot_flag" ]; then
+	update_partuuids
+fi
 
 exit 0
