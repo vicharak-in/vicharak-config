@@ -47,10 +47,20 @@ EOF
 }
 
 __configure_iptables() {
-	#TODO: do something of hardcoded interface names?
-	echo "Configuring NAT for usb0 to use end1 for internet access."
-	iptables -t nat -A POSTROUTING -o end1 -s 10.42.0.0/24 -j MASQUERADE && \
+	local usb_network="10.42.0.0/24"
+
+	# Assuming Ethernet has "eth" or "en" prefix (e.g., eth0, enp3s0, end1)
+	local iface
+	iface=$(ip link show | awk -F: '/^[0-9]+: (eth|en)/ {print $2; exit}' | tr -d ' ')
+
+	if [ -n "$iface" ]; then
+		echo "Configuring NAT for usb0 (network ${usb_network}) via $iface..."
+		iptables -t nat -A POSTROUTING -o "$iface" -s "$usb_network" -j MASQUERADE
 		sysctl -w net.ipv4.ip_forward=1
+	else
+		echo "Error: No Ethernet interface found!"
+		return 1
+	fi
 }
 
 __advanced_usb_tethering_enable() {
