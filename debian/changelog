@@ -1,3 +1,17 @@
+vicharak-config (0.1.12) jammy; urgency=medium
+
+  * Add support for GPIO Pin display under Overlays
+
+ -- Brajesh Patil <brajeshpatil11@gmail.com>  Tue, 16 Jul 2025 14:22:52 +0530
+
+vicharak-config (0.1.11) jammy; urgency=medium
+
+  * Remove systemctl daemon-reload call from postinst script.
+    This avoids failures during installation in Docker and other
+    minimal environments without systemd.
+
+ -- peonix0 <ajeetsinghchahar2@gmail.com>  Fri, 4 Jul 2025 12:08:37 +0530
+
 vicharak-config (0.1.10) jammy; urgency=medium
 
   * tui: advanced: Add support for USB tethering
