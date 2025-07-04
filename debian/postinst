@@ -8,6 +8,4 @@ if ! grep -q "${board}" /etc/apt/sources.list.d/vicharak.list; then
     echo "deb http://apt.vicharak.in/ stable-${board} ${board}" >> /etc/apt/sources.list.d/vicharak.list
 fi
 
-systemctl daemon-reload
-
 exit 0
