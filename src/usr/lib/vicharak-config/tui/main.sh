@@ -37,7 +37,7 @@ Copyright $(date +%Y) Vicharak Computers LLP"
 
 __tui_main() {
 	menu_init
-	menu_add __system "System Maintaince"
+	menu_add __system "System Maintenance"
 	menu_add __hardware "Hardware"
 	menu_add __overlay "Overlays"
 	menu_add __comm "Connectivity"
