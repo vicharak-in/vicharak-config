@@ -1,3 +1,9 @@
+vicharak-config (0.1.12) jammy; urgency=medium
+
+  * Add support for GPIO Pin display under Overlays
+
+ -- Brajesh Patil <brajeshpatil11@gmail.com>  Tue, 16 Jul 2025 14:22:52 +0530
+
 vicharak-config (0.1.11) jammy; urgency=medium
 
   * Remove systemctl daemon-reload call from postinst script.
