@@ -224,10 +224,8 @@ display_pinout(){
 	BOARD_NAME=$(uname -a | awk '{print substr($4, 2)}');
 	if [[ $BOARD_NAME == "vaaman" ]]; then
 		all_pins="vaaman_pins"
-		echo 6969
 	elif [[ $BOARD_NAME == "axon" ]]; then
 		all_pins="axon_pins"
-		echo 6969
 	else
 		msgbox "You are trying to use a board which is not designed by Vicharak!!"
 		return

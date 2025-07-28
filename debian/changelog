@@ -1,3 +1,9 @@
+vicharak-config (0.1.13) jammy; urgency=medium
+
+  * tui: overlay: Remove unwanted debugging lines
+
+ -- Brajesh Patil <brajeshpatil11@gmail.com>  Mon, 28 Jul 2025 14:30:32 +0530
+
 vicharak-config (0.1.12) jammy; urgency=medium
 
   * Add support for GPIO Pin display under Overlays
