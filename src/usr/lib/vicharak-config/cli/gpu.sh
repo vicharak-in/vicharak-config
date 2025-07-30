@@ -23,32 +23,3 @@ install_gpu() {
 	fi
 	apt install /userdata/gpu/*.deb || true
 }
-
-enable_gpu_opengl() {
-	__parameter_count_check 0 "$@"
-
-	# shellcheck disable=SC2016
-	echo '
-#!/bin/bash
-
-shopt -s nullglob
-
-export LD_LIBRARY_PATH="/usr/lib/gl4es:${LD_LIBRARY_PATH}"
-
-exec "$@"
-' >/usr/bin/gl4es
-
-	if [ -f /usr/bin/gl4es ]; then
-		chmod +x /usr/bin/gl4es
-	else
-		echo "Failed to create /usr/bin/gl4es"
-	fi
-}
-
-disable_gpu_opengl() {
-	__parameter_count_check 0 "$@"
-
-	if [ -f /usr/bin/gl4es ]; then
-		rm -f /usr/bin/gl4es
-	fi
-}
