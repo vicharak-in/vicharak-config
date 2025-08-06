@@ -17,6 +17,8 @@ source "/usr/lib/vicharak-config/tui/system/system.sh"
 source "/usr/lib/vicharak-config/tui/advanced/advanced.sh"
 # shellcheck source=src/usr/lib/vicharak-config/tui/user/user.sh
 source "/usr/lib/vicharak-config/tui/user/user.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/kernel/kernel.sh
+source "/usr/lib/vicharak-config/tui/kernel/kernel.sh"
 
 if $DEBUG; then
 	# shellcheck source=src/usr/lib/vicharak-config/tui/test/test.sh
@@ -40,6 +42,7 @@ __tui_main() {
 	menu_add __system "System Maintenance"
 	menu_add __hardware "Hardware"
 	menu_add __overlay "Overlays"
+	menu_add __kernel "Linux Kernel"
 	menu_add __comm "Connectivity"
 	menu_add __advanced "Advanced Options"
 	menu_add __user "User Settings"
