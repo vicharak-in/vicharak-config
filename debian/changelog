@@ -1,3 +1,9 @@
+vicharak-config (0.1.15) jammy; urgency=medium
+
+  * dependency addition: vicharak-user
+
+ -- Hrushiraj Gandhi <hrushirajg23@gmail.com>  Fri, 22 Aug 2025 17:46:05 +0530
+
 vicharak-config (0.1.14) jammy; urgency=medium
 
   * tui: kernel: Add support for switching between kernels
