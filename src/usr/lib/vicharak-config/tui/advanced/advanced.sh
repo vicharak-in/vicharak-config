@@ -12,6 +12,8 @@ source "/usr/lib/vicharak-config/tui/advanced/display/display.sh"
 source "/usr/lib/vicharak-config/tui/advanced/vnc/vncserver.sh"
 # shellcheck source=src/usr/lib/vicharak-config/tui/advanced/usb/usb.sh
 source "/usr/lib/vicharak-config/tui/advanced/usb/usb.sh"
+# shellcheck source=src/usr/lib/vicharak-config/tui/advanced/uboot/main.sh
+source "/usr/lib/vicharak-config/tui/advanced/uboot/main.sh"
 
 __advanced() {
 	menu_init
@@ -21,5 +23,6 @@ __advanced() {
 	menu_add __advanced_vncserver "VNC Server"
 	#menu_add __advanced_ssh             "SSH"
 	menu_add __advanced_usb "USB Advanced features"
+	menu_add __advanced_uboot "Boot Settings"
 	menu_show "Please select an option below:"
 }
