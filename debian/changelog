@@ -1,3 +1,9 @@
+vicharak-config (0.1.17) jammy; urgency=medium
+
+  * advanced: support for board backup
+
+ -- Brajesh Patil <brajeshpatil11@gmail.com>  Mon, 13 Sep 2025 18:25:09 +0530
+
 vicharak-config (0.1.16) jammy; urgency=medium
 
   * advanced: support for toggling uboot console access
