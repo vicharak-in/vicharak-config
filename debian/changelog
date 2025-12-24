@@ -1,3 +1,9 @@
+vicharak-config (0.1.18) jammy; urgency=medium
+
+  * Add updated APT package server
+
+ -- Avi Shihora <avi.shihora@vicharak.in>  Wed, 24 Dec 2025 10:57:59 +0530
+
 vicharak-config (0.1.17) jammy; urgency=medium
 
   * advanced: support for board backup
