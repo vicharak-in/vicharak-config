@@ -1,3 +1,9 @@
+vicharak-config (0.1.19) jammy; urgency=medium
+
+  * Add vicharak-update feature for updating system
+
+ -- Avi Shihora <avi.shihora@vicharak.in>  Fri, 26 Dec 2025 18:23:55 +0530
+
 vicharak-config (0.1.18) jammy; urgency=medium
 
   * Add updated APT package server
