@@ -1,3 +1,9 @@
+vicharak-config (0.1.20) jammy; urgency=medium
+
+  * remove unwanted dependencies
+
+ -- Hrushiraj Gandhi <hrushirajg23@gmail.com>  Wed, 11 Feb 2026 17:11:57 +0530
+
 vicharak-config (0.1.19) jammy; urgency=medium
 
   * Add vicharak-update feature for updating system
