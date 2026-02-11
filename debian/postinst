@@ -1,11 +1,60 @@
 #!/bin/sh
 set -e
 
-board=$(cat /sys/firmware/devicetree/base/model | awk '{print tolower($3)}')
+BASE_URL="https://pkg.vicharak.in"
+LIST_FILE="/etc/apt/sources.list.d/vicharak.list"
 
-if ! grep -q "${board}" /etc/apt/sources.list.d/vicharak.list; then
-    echo "deb http://apt.vicharak.in/ stable main" > /etc/apt/sources.list.d/vicharak.list
-    echo "deb http://apt.vicharak.in/ stable-${board} ${board}" >> /etc/apt/sources.list.d/vicharak.list
+# -------------------------
+# Detect hardware
+# -------------------------
+if [ ! -f /proc/device-tree/compatible ]; then
+    exit 1
 fi
+
+# -------------------------
+# Detect processor
+# -------------------------
+COMPATIBLE="$(tr -d '\0' < /proc/device-tree/compatible)"
+
+if echo "$COMPATIBLE" | grep -qi rk3588; then
+    PROCESSOR="rk3588"
+    SOC_VENDOR="rk"
+elif echo "$COMPATIBLE" | grep -qi rk3399; then
+    PROCESSOR="rk3399"
+    SOC_VENDOR="rk"
+else
+    exit 1
+fi
+
+# -------------------------
+# Detect device
+# -------------------------
+if echo "$COMPATIBLE" | grep -qi axon; then
+    DEVICE="axon"
+elif echo "$COMPATIBLE" | grep -qi vaaman; then
+    DEVICE="vaaman"
+else
+    DEVICE="generic"
+fi
+
+OS_CODENAME=$(grep -E "^VERSION_CODENAME=" /etc/os-release | cut -d= -f2)
+
+# -------------------------
+# Write APT source
+# -------------------------
+cat > "$LIST_FILE" <<EOF
+# OS      : $OS_CODENAME
+# CPU     : $PROCESSOR
+# Device  : $DEVICE
+
+deb $BASE_URL stable stable
+deb $BASE_URL stable-${SOC_VENDOR}main stable-rockchip/rkmain
+deb $BASE_URL stable-$PROCESSOR-main stable-rockchip/$PROCESSOR/main
+deb $BASE_URL stable-$PROCESSOR-$DEVICE-main stable-rockchip/$PROCESSOR/$DEVICE/main
+deb $BASE_URL stable-$PROCESSOR-$DEVICE-ubuntu-main stable-rockchip/$PROCESSOR/$DEVICE/ubuntu/main
+deb $BASE_URL stable-$PROCESSOR-$DEVICE-ubuntu-$OS_CODENAME stable-rockchip/$PROCESSOR/$DEVICE/ubuntu/$OS_CODENAME
+EOF
+
+apt update
 
 exit 0
