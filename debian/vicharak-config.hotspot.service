@@ -1,0 +1,14 @@
+[Unit]
+Description=Recovery Key Monitor Service
+After=network.target
+
+[Service]
+ExecStart=/bin/bash /usr/lib/vicharak-config/tui/comm/hotspot/recovery_key_monitor.sh
+Restart=always
+User=root
+
+# Important for hardware access
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
