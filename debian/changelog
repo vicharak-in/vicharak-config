@@ -1,3 +1,12 @@
+vicharak-config (0.1.21) jammy; urgency=medium
+
+  * vicharak-config: tui: comm: Added hotspot management support
+  * vicharak-config: tui: comm: Added recovery-button-triggered hotspot service
+  * vicharak-config: tui: comm: Added TUI options for hotspot enable/disable, manual start, and credential editing
+  * vicharak-config: tui: comm: Added ADC-based recovery key monitoring and nmcli hotspot startup
+
+ -- Keshav Jha <keshav1499@gmail.com>  Fri, 22 May 2026 10:53:17 +0530
+
 vicharak-config (0.1.20) jammy; urgency=medium
 
   * remove unwanted dependencies
