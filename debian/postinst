@@ -3,6 +3,7 @@ set -e
 
 BASE_URL="https://pkg.vicharak.in"
 LIST_FILE="/etc/apt/sources.list.d/vicharak.list"
+OS_RELEASE_FILE="/etc/os-release"
 
 # -------------------------
 # Detect hardware
@@ -14,7 +15,7 @@ fi
 # -------------------------
 # Detect processor
 # -------------------------
-COMPATIBLE="$(tr -d '\0' < /proc/device-tree/compatible)"
+COMPATIBLE="$(tr -d '\0' < /proc/device-tree/compatible) | grep -iqx ".*$1.*""
 
 if echo "$COMPATIBLE" | grep -qi rk3588; then
     PROCESSOR="rk3588"
@@ -29,30 +30,55 @@ fi
 # -------------------------
 # Detect device
 # -------------------------
-if echo "$COMPATIBLE" | grep -qi axon; then
-    DEVICE="axon"
-elif echo "$COMPATIBLE" | grep -qi vaaman; then
-    DEVICE="vaaman"
-else
-    DEVICE="generic"
-fi
+case "$COMPATIBLE" in
+    *"vicharak,rk3588-axon-cm-evb1"*) BOARD="axon-cm-evb1"; MODEL="axon-cm" ;;
+    *"vicharak,rk3588-axon"*)         BOARD="axon";         MODEL="" ;;
+    *"vicharak,rk3399-vaaman"*)       BOARD="vaaman";       MODEL="" ;;
+    *)                                BOARD="generic";      MODEL="" ;;
+esac
 
 OS_CODENAME=$(grep -E "^VERSION_CODENAME=" /etc/os-release | cut -d= -f2)
 
+# Build the device path segment: "$MODEL/$BOARD" if MODEL is set, else just "$BOARD"
+if [ -n "$MODEL" ]; then
+    DEVICE_PATH="$MODEL/$BOARD"
+else
+    DEVICE_PATH="$BOARD"
+fi
+
+
+if [ -f "$OS_RELEASE_FILE" ]; then
+    OS_ID=$(grep -E "^ID=" "$OS_RELEASE_FILE" | cut -d= -f2 | tr -d '"')
+
+    case "$OS_ID" in
+        ubuntu)
+            echo "System check: Running on Ubuntu."
+            ;;
+        debian)
+            echo "System check: Running on Debian."
+            ;;
+        *)
+            echo "System check: Unsupported OS ($OS_ID)."
+            ;;
+    esac
+else
+    echo "Cannot determine OS."
+fi
 # -------------------------
 # Write APT source
 # -------------------------
 cat > "$LIST_FILE" <<EOF
 # OS      : $OS_CODENAME
 # CPU     : $PROCESSOR
-# Device  : $DEVICE
+# Device  : $BOARD
+# OS_ID	  : $OS_ID
 
 deb $BASE_URL stable stable
 deb $BASE_URL stable-${SOC_VENDOR}main stable-rockchip/rkmain
 deb $BASE_URL stable-$PROCESSOR-main stable-rockchip/$PROCESSOR/main
-deb $BASE_URL stable-$PROCESSOR-$DEVICE-main stable-rockchip/$PROCESSOR/$DEVICE/main
-deb $BASE_URL stable-$PROCESSOR-$DEVICE-ubuntu-main stable-rockchip/$PROCESSOR/$DEVICE/ubuntu/main
-deb $BASE_URL stable-$PROCESSOR-$DEVICE-ubuntu-$OS_CODENAME stable-rockchip/$PROCESSOR/$DEVICE/ubuntu/$OS_CODENAME
+deb $BASE_URL stable-$PROCESSOR-$BOARD-main stable-rockchip/$PROCESSOR/$DEVICE_PATH/main
+deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-main stable-rockchip/$PROCESSOR/$DEVICE_PATH/$OS_ID/main
+deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-$OS_CODENAME stable-rockchip/$PROCESSOR/$DEVICE_PATH/$OS_ID/$OS_CODENAME
 EOF
 
 apt update
