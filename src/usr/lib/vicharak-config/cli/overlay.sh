@@ -258,7 +258,7 @@ $description
 __overlay_reset() {
 	__check_sudo "$0"
 
-	if yesno_cli "WARNING
+	if ! yesno_cli "WARNING
 
 All installed overlays will be reset to current running kernel's default.
 All enabled overlays will be disabled.
