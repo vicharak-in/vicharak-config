@@ -227,7 +227,7 @@ display_pinout(){
 	elif [[ $BOARD_NAME == "axon" ]]; then
 		all_pins="axon_pins"
 	else
-		msgbox "You are trying to use a board which is not designed by Vicharak!!"
+		msgbox "You are trying to use a board that does not have GPIO Pins on header."
 		return
 	fi
 
