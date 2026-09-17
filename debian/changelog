@@ -1,3 +1,9 @@
+vicharak-config (0.1.21) jammy; urgency=medium
+
+  * overlay: show only overlays for the running board
+
+ -- Avi Shihora <avi.shihora@vicharak.in>  Thu, 17 Sep 2026 14:44:51 +0530
+
 vicharak-config (0.1.20) jammy; urgency=medium
 
   * remove unwanted dependencies
