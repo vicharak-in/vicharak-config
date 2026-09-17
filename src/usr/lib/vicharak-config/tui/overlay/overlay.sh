@@ -161,6 +161,32 @@ vaaman_pins=(
 "GND"		"39"		"40"		"GPIO4_A7"
 )
 
+#Array representing pin mapping according to Axon-lite GPIO documentation format
+# shellcheck disable=SC2034
+axonlite_pins=(
+"Function"	"Pin#"		"Pin#"		"Function"
+"5V"		"1"		"2"		"5V"
+"GPIO4_A1"	"3"		"4"		"5V"
+"GPIO4_A0"	"5"		"5"		"GND"
+"GPIO2_B5"	"7"		"8"		"UART0_TX_M0"
+"GND"		"9"		"10"		"UART0_RX_M0"
+"GPIO3_C0"	"11"		"12"		"GPIO3_A0"
+"GPIO3_B7"	"13"		"14"		"GND"
+"GPIO2_A7"	"15"		"16"		"GPIO0_C1"
+"3.3V"		"17"		"18"		"GPIO0_C2"
+"GPIO3_D6"	"19"		"20"		"GND"
+"GPIO3_D5"	"21"		"22"		"GPIO2_B4"
+"GPIO3_D4"	"23"		"24"		"GPIO3_D7"
+"GND"		"25"		"26"		"GPIO2_A6"
+"GPIO3_C5"	"27"		"28"		"GPIO2_B6"
+"GPIO3_C6"	"29"		"30"		"GND"
+"GPIO3_C7"	"31"		"32"		"GPIO2_D5"
+"GPIO3_D0"	"33"		"34"		"GND"
+"GPIO3_A1"	"35"		"36"		"GPIO2_D4"
+"GPIO2_B7"	"37"		"38"		"GPIO3_A3"
+"GND"		"39"		"40"		"GPIO3_A2"
+)
+
 # Purpose: Highlight the pins that are used for the selected overlay
 #	   Highlighted pins are wrapped with |* *| markers.
 # Parameters:
@@ -226,6 +252,8 @@ display_pinout(){
 		all_pins="vaaman_pins"
 	elif [[ $BOARD_NAME == "axon" ]]; then
 		all_pins="axon_pins"
+	elif [[ $BOARD_NAME == "lite" ]]; then
+		all_pins="axonlite_pins"
 	else
 		msgbox "You are trying to use a board that does not have GPIO Pins on header."
 		return
