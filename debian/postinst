@@ -23,6 +23,9 @@ if echo "$COMPATIBLE" | grep -qi rk3588; then
 elif echo "$COMPATIBLE" | grep -qi rk3399; then
     PROCESSOR="rk3399"
     SOC_VENDOR="rk"
+elif echo "$COMPATIBLE" | grep -qi rk3576; then
+    PROCESSOR="rk3576"
+    SOC_VENDOR="rk"
 else
     exit 1
 fi
@@ -33,6 +36,7 @@ fi
 case "$COMPATIBLE" in
     *"vicharak,rk3588-axon-cm-evb1"*) BOARD="axon-cm-evb1"; MODEL="axon-cm" ;;
     *"vicharak,rk3588-axon"*)         BOARD="axon";         MODEL="" ;;
+    *"vicharak,rk3576-axon-lite"*)    BOARD="axon-lite";    MODEL="" ;;
     *"vicharak,rk3399-vaaman"*)       BOARD="vaaman";       MODEL="" ;;
     *)                                BOARD="generic";      MODEL="" ;;
 esac
