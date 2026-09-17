@@ -1,5 +1,7 @@
 # shellcheck shell=bash
 
+# shellcheck source=src/usr/lib/vicharak-config/mod/hwid.sh
+source "/usr/lib/vicharak-config/mod/hwid.sh"
 # shellcheck source=src/usr/lib/vicharak-config/mod/overlay.sh
 source "/usr/lib/vicharak-config/mod/overlay.sh"
 
@@ -187,20 +189,33 @@ reset_overlays() {
 
 parse_dtbo() {
 	local output
-	output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0][].__overlay__.metadata.$2[0]" | tr '\0' '\n')"
+	# Prefer fragment@0 metadata; fall back to scanning all fragments.
+	# Drop nulls produced by fragments that have no metadata property.
+	output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0].\"fragment@0\".__overlay__.metadata.$2[0]" | tr '\0' '\n' | grep -v '^null$' || true)"
 
-	if [[ "${output}" == "null" ]]; then
-		# Try parsing the metadata property with an alternative path
-		output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0].fragment@0.__overlay__.metadata.$2[0]" | tr '\0' '\n')"
+	if [[ -z "${output}" ]]; then
+		output="$(dtc -I dtb -O dts "$1" 2>/dev/null | dtc -I dts -O yaml 2>/dev/null | yq -r ".[0][].__overlay__.metadata.$2[0]" | tr '\0' '\n' | grep -v '^null$' || true)"
 	fi
 
 	if (($# >= 3)); then
-		if [[ "${output}" == "null" ]]; then
+		if [[ -z "${output}" ]]; then
 			echo "$3"
 			return
 		fi
 	fi
-	echo "${output}"
+	# Avoid echoing a blank line when metadata is missing; callers treat
+	# empty output as "no value" (previously yq returned "null").
+	[[ -n "${output}" ]] && echo "${output}"
+}
+
+# Match overlay basename to running product (e.g. rk3588-axon), without
+# treating rk3588-axon-cm* as a match for rk3588-axon.
+__overlay_filename_matches_device() {
+	local base product_id
+	base="$(basename "$1")"
+	product_id="$(get_product_id)"
+	[[ -n "$product_id" ]] || return 0
+	[[ "$base" =~ ^"${product_id}"([_.]|-v|\.dtbo) ]]
 }
 
 dtbo_is_compatible() {
@@ -210,14 +225,41 @@ dtbo_is_compatible() {
 		return
 	fi
 
-	local overlay="$1" dtbo_compatible
+	local overlay="$1" dtbo_compatible platform_compatible board_compatible vendor
+	local has_board_level=false
+
 	mapfile -t dtbo_compatible < <(parse_dtbo "$overlay" "compatible")
-	if [[ "${dtbo_compatible[0]}" == "null" ]]; then
+	# No compatible metadata → allow (e.g. 3rd party overlays)
+	if [[ ${#dtbo_compatible[@]} -eq 0 ]] || [[ -z "${dtbo_compatible[0]}" ]]; then
 		return
 	fi
 
+	mapfile -t platform_compatible < <(tr '\0' '\n' </sys/firmware/devicetree/base/compatible)
+	board_compatible="${platform_compatible[0]}"
+	vendor="${board_compatible%%,*}"
+
+	# Board-level metadata (vendor,*) must match this board exactly.
+	# Matching only rockchip,rk3588 would wrongly show axon overlays on axon-cm.
 	for d in "${dtbo_compatible[@]}"; do
-		for p in $(xargs -0 </sys/firmware/devicetree/base/compatible); do
+		if [[ "$d" == "$vendor,"* ]]; then
+			has_board_level=true
+			if [[ "$d" == "$board_compatible" ]]; then
+				return
+			fi
+		fi
+	done
+
+	if $has_board_level; then
+		return 1
+	fi
+
+	# SoC-only metadata: require SoC match and a product-specific filename.
+	if ! __overlay_filename_matches_device "$overlay"; then
+		return 1
+	fi
+
+	for d in "${dtbo_compatible[@]}"; do
+		for p in "${platform_compatible[@]}"; do
 			if [[ "$d" == "$p" ]]; then
 				return
 			fi

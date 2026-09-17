@@ -179,16 +179,6 @@ __overlay_validate() {
 		if ! check_overlay_conflict_cli "$U_BOOT_FDT_OVERLAYS_DIR/$item"*; then
 			return 1
 		fi
-
-		local title package
-		mapfile -t title < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "title" "$(basename "$item")")
-		mapfile -t package < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "package")
-		if [[ "${package[0]}" != "null" ]]; then
-			if ! __depends_package_cli "${title[0]}" "${package[@]}"; then
-				echo "Failed to install required packages for '${title[0]}'." >&2
-				return 1
-			fi
-		fi
 	done
 }
 
@@ -238,7 +228,7 @@ __overlay_info() {
 		mapfile -t exclusive < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "exclusive")
 		mapfile -t package < <(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "package")
 		description="$(parse_dtbo "$U_BOOT_FDT_OVERLAYS_DIR/$item"* "description")"
-		if ((${#title[@]} == 1)) && [[ "${title[0]}" == "null" ]]; then
+		if ((${#title[@]} == 0)) || { ((${#title[@]} == 1)) && [[ -z "${title[0]}" || "${title[0]}" == "null" ]]; }; then
 			title=("$item")
 			description="This is a 3rd party overlay. No metadata is available."
 		fi
