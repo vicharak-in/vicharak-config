@@ -247,12 +247,19 @@ contains_gpio() {
 # Purpose: Determine the board type, select appropriate pin mapping, and display
 #          pinout with highlighted exclusive pins for selected overlays.
 display_pinout(){
-	BOARD_NAME=$(uname -a | awk '{print substr($4, 2)}');
-	if [[ $BOARD_NAME == "vaaman" ]]; then
+	local compatible_file="/sys/firmware/devicetree/base/compatible"
+	[[ ! -f "$compatible_file" ]] && compatible_file="/proc/device-tree/compatible"
+
+	local compatible=""
+	if [[ -f "$compatible_file" ]]; then
+		compatible=$(tr '\0' '\n' < "$compatible_file")
+	fi
+
+	if echo "$compatible" | grep -qFx "vicharak,rk3399-vaaman"; then
 		all_pins="vaaman_pins"
-	elif [[ $BOARD_NAME == "axon" ]]; then
+	elif echo "$compatible" | grep -qFx "vicharak,rk3588-axon"; then
 		all_pins="axon_pins"
-	elif [[ $BOARD_NAME == "lite" ]]; then
+	elif echo "$compatible" | grep -qFx "vicharak,rk3576-axon-lite"; then
 		all_pins="axonlite_pins"
 	else
 		msgbox "You are trying to use a board that does not have GPIO Pins on header."
