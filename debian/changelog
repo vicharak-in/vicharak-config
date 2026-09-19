@@ -1,3 +1,10 @@
+vicharak-config (0.1.21) jammy; urgency=medium
+
+  * debian: postinst: compatibility for axon-lite board
+  * tui: overlay.sh: Support for Axon-Lite, Pin mapping and Pinout Display inclusion
+
+ -- keshav1499 <keshav1499@gmail.com>  Thu, 17 Sep 2026 20:50:48 +0530
+
 vicharak-config (0.1.20) jammy; urgency=medium
 
   * remove unwanted dependencies
