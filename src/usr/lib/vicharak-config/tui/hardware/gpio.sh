@@ -15,11 +15,21 @@ __hardware_gpio_fmt() {
 }
 
 __get_gpio_pin_count() {
-	if grep -a -i axon /sys/firmware/devicetree/base/model > /dev/null; then
-		echo 30  # Axon model has 30 pins
-	elif grep -a -i vaaman /sys/firmware/devicetree/base/model > /dev/null; then
-		echo 40  # Vaaman model has 40 pins
+	local compatible_file="/sys/firmware/devicetree/base/compatible"
+	[[ ! -f "$compatible_file" ]] && compatible_file="/proc/device-tree/compatible"
+
+	local compatible=""
+	if [[ -f "$compatible_file" ]]; then
+		compatible="$(tr '\0' '\n' < "$compatible_file")"
 	fi
+
+	case "$compatible" in
+	*"vicharak,rk3399-vaaman"*)    echo 40 ;;
+	*"vicharak,rk3576-axon-lite"*) echo 40 ;;
+	*"vicharak,rk3588-axon"*)      echo 30 ;;
+	*"vicharak,rk3588-vaaman2"*)   echo 40 ;;
+	*)                             echo 40 ;; #Uncompatible board sets the default 40 pins
+	esac
 }
 
 __hardware_gpio_set() {
