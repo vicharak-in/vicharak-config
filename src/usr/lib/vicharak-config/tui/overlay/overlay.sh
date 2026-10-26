@@ -187,6 +187,32 @@ axonlite_pins=(
 "GND"		"39"		"40"		"GPIO3_A2"
 )
 
+# Array representing pin mapping according to Vaaman2 GPIO documentation format
+# shellcheck disable=SC2034
+vaaman2_pins=(
+"Function"	"Pin#"		"Pin#"		"Function"
+"20V"		"1"		"2"		"GPIO0_B6"
+"20V"		"3"		"4"		"GPIO0_B5"
+"GND"		"5"		"6"		"GND"
+"GPIO4_B3"	"7"		"8"		"GPIO3_C7"
+"GPIO4_B2"	"9"		"10"		"GPIO3_D0"
+"GND"		"11"		"12"		"GND"
+"5V"		"13"		"14"		"GPIO2_C1"
+"5V"		"15"		"16"		"GPIO2_C0"
+"GND"		"17"		"18"		"GPIO1_B6"
+"GPIO1_A1"	"19"		"20"		"GPIO1_B7"
+"GPIO1_A0"	"21"		"22"		"GND"
+"GPIO1_A2"	"23"		"24"		"1.8V"
+"GPIO1_A3"	"25"		"26"		"1.8V"
+"3.3V"	 	"27"		"28"		"GPIO_I/O5"
+"3.3V"		"29"		"30"		"GPIO_I/O7"
+"GND"		"31"		"32"		"GPIO_I/O6"
+"SARADC_1"	"33"		"34"		"GND"
+"SARADC_2"	"35"		"36"		"SARADC_3"
+"GND"		"37"		"38"		"SARADC_4"
+"GND"		"39"		"40"		"GND"
+)
+
 # Purpose: Highlight the pins that are used for the selected overlay
 #	   Highlighted pins are wrapped with |* *| markers.
 # Parameters:
@@ -261,6 +287,8 @@ display_pinout(){
 		all_pins="axon_pins"
 	elif echo "$compatible" | grep -qFx "vicharak,rk3576-axon-lite"; then
 		all_pins="axonlite_pins"
+	elif echo "$compatible" | grep -qFx "vicharak,rk3588-vaaman2"; then
+		all_pins="vaaman2_pins"
 	else
 		msgbox "You are trying to use a board that does not have GPIO Pins on header."
 		return

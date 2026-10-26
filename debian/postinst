@@ -38,6 +38,7 @@ case "$COMPATIBLE" in
     *"vicharak,rk3588-axon"*)         BOARD="axon";         MODEL="" ;;
     *"vicharak,rk3576-axon-lite"*)    BOARD="axon-lite";    MODEL="" ;;
     *"vicharak,rk3399-vaaman"*)       BOARD="vaaman";       MODEL="" ;;
+    *"vicharak,rk3588-vaaman2"*)      BOARD="vaaman2";      MODEL="" ;;
     *)                                BOARD="generic";      MODEL="" ;;
 esac
 
