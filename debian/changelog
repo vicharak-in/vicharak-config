@@ -1,3 +1,10 @@
+vicharak-config (0.1.22) jammy; urgency=medium
+
+  * debian: postinst: compatibility for vaaman2 board
+  * tui: overlay: Add Vaaman2 Pin mapping
+
+ -- 092vk <vk092kumar@gmail.com>  Mon, 26 Oct 2026 20:50:48 +0530
+
 vicharak-config (0.1.21) jammy; urgency=medium
 
   * debian: postinst: compatibility for axon-lite board
