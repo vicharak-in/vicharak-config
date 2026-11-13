@@ -1,0 +1,60 @@
+#!/bin/bash
+#
+set -e
+
+COMMAND="${1:-}"
+KERNEL_VERSION="${2:-}"
+ENTRY_DIR="${3:-}"
+
+if [[ "$COMMAND" != "add" ]] || [[ -z "$ENTRY_DIR" ]] || [[ -z "$KERNEL_VERSION" ]]; then
+	exit 0
+fi
+
+if [[ -n "${VICHARAK_CONFIG_PRODUCT_ID_OVERRIDE:-}" ]]; then
+	product_id="$VICHARAK_CONFIG_PRODUCT_ID_OVERRIDE"
+	soc_vendor="${VICHARAK_CONFIG_SOC_VENDOR_OVERRIDE:-}"
+elif [[ -r /proc/device-tree/compatible ]]; then
+	product_id="$(tr '\0' '\n' </proc/device-tree/compatible | head -n 1 | cut -d, -f 2)"
+	soc_vendor="$(tr '\0' '\n' </proc/device-tree/compatible | tail -n 1 | cut -d, -f 1)"
+else
+	# Not running on the target board (e.g. image build in a container).
+	exit 0
+fi
+
+if [[ -z "$product_id" ]] || [[ ! -d "/usr/lib/linux-image-$KERNEL_VERSION" ]]; then
+	exit 0
+fi
+
+IMAGE_DIR="/usr/lib/linux-image-$KERNEL_VERSION"
+
+# Copy the board DTB into the entry directory
+dtb=""
+if [[ -n "$soc_vendor" ]]; then
+	dtb="$(find "$IMAGE_DIR/$soc_vendor" -maxdepth 1 -name "*$product_id*.dtb" 2>/dev/null | head -n 1)"
+fi
+if [[ -z "$dtb" ]]; then
+	dtb="$(find "$IMAGE_DIR" -maxdepth 2 -name "*$product_id*.dtb" 2>/dev/null | head -n 1)"
+fi
+
+if [[ -n "$dtb" ]]; then
+	cp "$dtb" "$ENTRY_DIR/"
+
+	# Make sure the entry references the device tree. The .conf file is
+	# created by 90-loaderentry.install under $BOOT/loader/entries/.
+	boot="$(dirname "$(dirname "$ENTRY_DIR")")"
+	rel_dir="${ENTRY_DIR#"$boot"}"
+	for conf in "$boot"/loader/entries/*.conf; do
+		[[ -f "$conf" ]] || continue
+		grep -qF " $rel_dir/linux" "$conf" || continue
+		grep -q '^devicetree[[:space:]]' "$conf" ||
+			printf 'devicetree %s/%s\n' "$rel_dir" "$(basename "$dtb")" >>"$conf"
+	done
+fi
+
+# Copy board overlays into the entry directory
+if [[ -n "$soc_vendor" && -d "$IMAGE_DIR/$soc_vendor/overlays" ]]; then
+	mkdir -p "$ENTRY_DIR/overlays-$KERNEL_VERSION"
+	cp -a "$IMAGE_DIR/$soc_vendor/overlays/." "$ENTRY_DIR/overlays-$KERNEL_VERSION/"
+fi
+
+exit 0

@@ -6,6 +6,8 @@ source "/usr/lib/vicharak-config/mod/hwid.sh"
 source "/usr/lib/vicharak-config/mod/pkg.sh"
 # shellcheck source=src/usr/lib/vicharak-config/mod/overlay.sh
 source "/usr/lib/vicharak-config/mod/overlay.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/systemd-boot.sh
+source "/usr/lib/vicharak-config/mod/systemd-boot.sh"
 
 __overlay_install() {
 	if ! __depends_package "Install 3rd party overlay" "gcc" "linux-headers-$(uname -r)"; then
@@ -60,7 +62,7 @@ Are you sure?"; then
 		;;
 	esac
 
-	if u-boot-update >/dev/null; then
+	if update_boot_config >/dev/null; then
 		msgbox "Selected overlays will be enabled at next boot."
 	else
 		msgbox "Unable to update the boot config."
@@ -397,7 +399,7 @@ __overlay_manage() {
 		mv "$U_BOOT_FDT_OVERLAYS_DIR/$item.disabled" "$U_BOOT_FDT_OVERLAYS_DIR/$item"
 	done
 
-	if u-boot-update >/dev/null; then
+	if update_boot_config >/dev/null; then
 		msgbox "Selected overlays will be enabled at next boot."
 	else
 		msgbox "Unable to update the boot config."

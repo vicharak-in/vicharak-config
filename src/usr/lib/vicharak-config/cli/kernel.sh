@@ -13,6 +13,7 @@ __yz-update-overlays() {
 	configure)
 		echo "Updating overlays for $ABI ..."
 		reset_overlays "$ABI" "$(get_soc_vendor)" "true"
+		update_boot_config
 		;;
 	remove) ;;
 	esac

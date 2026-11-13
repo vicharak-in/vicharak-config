@@ -15,7 +15,7 @@ fi
 # -------------------------
 # Detect processor
 # -------------------------
-COMPATIBLE="$(tr -d '\0' < /proc/device-tree/compatible) | grep -iqx ".*$1.*""
+COMPATIBLE="$(tr -d '\0' < /proc/device-tree/compatible)"
 
 if echo "$COMPATIBLE" | grep -qi rk3588; then
     PROCESSOR="rk3588"
@@ -26,9 +26,20 @@ elif echo "$COMPATIBLE" | grep -qi rk3399; then
 elif echo "$COMPATIBLE" | grep -qi rk3576; then
     PROCESSOR="rk3576"
     SOC_VENDOR="rk"
+elif echo "$COMPATIBLE" | grep -qi qcm6490; then
+    PROCESSOR="qcm6490"
+    SOC_VENDOR="qcom"
 else
     exit 1
 fi
+
+# Repository group name used in the APT source lines
+# (rk : rockchip, qcom : qualcomm)
+case "$SOC_VENDOR" in
+    qcom) VENDOR_GROUP="qualcomm" ;;
+    rk) VENDOR_GROUP="rockchip" ;;
+    *) exit 1 ;;
+esac
 
 # -------------------------
 # Detect device
@@ -79,11 +90,11 @@ cat > "$LIST_FILE" <<EOF
 # OS_ID	  : $OS_ID
 
 deb $BASE_URL stable stable
-deb $BASE_URL stable-${SOC_VENDOR}main stable-rockchip/rkmain
-deb $BASE_URL stable-$PROCESSOR-main stable-rockchip/$PROCESSOR/main
-deb $BASE_URL stable-$PROCESSOR-$BOARD-main stable-rockchip/$PROCESSOR/$DEVICE_PATH/main
-deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-main stable-rockchip/$PROCESSOR/$DEVICE_PATH/$OS_ID/main
-deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-$OS_CODENAME stable-rockchip/$PROCESSOR/$DEVICE_PATH/$OS_ID/$OS_CODENAME
+deb $BASE_URL stable-${SOC_VENDOR}main stable-$VENDOR_GROUP/${SOC_VENDOR}main
+deb $BASE_URL stable-$PROCESSOR-main stable-$VENDOR_GROUP/$PROCESSOR/main
+deb $BASE_URL stable-$PROCESSOR-$BOARD-main stable-$VENDOR_GROUP/$PROCESSOR/$DEVICE_PATH/main
+deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-main stable-$VENDOR_GROUP/$PROCESSOR/$DEVICE_PATH/$OS_ID/main
+deb $BASE_URL stable-$PROCESSOR-$BOARD-$OS_ID-$OS_CODENAME stable-$VENDOR_GROUP/$PROCESSOR/$DEVICE_PATH/$OS_ID/$OS_CODENAME
 EOF
 
 apt update

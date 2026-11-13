@@ -2,8 +2,22 @@
 
 # shellcheck source=src/usr/lib/vicharak-config/mod/overlay.sh
 source "/usr/lib/vicharak-config/mod/overlay.sh"
+# shellcheck source=src/usr/lib/vicharak-config/mod/systemd-boot.sh
+source "/usr/lib/vicharak-config/mod/systemd-boot.sh"
 
-ALLOWED_VICHARAK_CONFIG_FUNC+=("load_u-boot_setting")
+ALLOWED_VICHARAK_CONFIG_FUNC+=("load_u-boot_setting" "update_boot_config")
+
+# Apply the boot configuration after overlay changes.
+# On u-boot-menu systems this regenerates extlinux.conf via u-boot-update;
+# on systemd-boot systems it rewrites the devicetree-overlay lines of the
+# Boot Loader Specification entries.
+update_boot_config() {
+	if [[ "$(get_boot_mode)" == "systemd-boot" ]]; then
+		systemd_boot_update_entries
+	else
+		u-boot-update
+	fi
+}
 
 check_overlay_conflict_init() {
 	VICHARAK_CONFIG_OVERLAY_RESOURCES=()
@@ -61,6 +75,13 @@ Please only enable one of them."
 }
 
 load_u-boot_setting() {
+	local version="${1:-}"
+
+	if [[ "$(get_boot_mode)" == "systemd-boot" ]]; then
+		load_systemd-boot_setting "$version"
+		return
+	fi
+
 	if [[ ! -e "/etc/default/u-boot" ]]; then
 		touch "/etc/default/u-boot"
 	fi
@@ -114,7 +135,7 @@ __reset_overlays_worker() {
 }
 
 reset_overlays() {
-	load_u-boot_setting
+	load_u-boot_setting "$1"
 
 	local version="$1" vendor="$2" keep_active_enabled="$3" dtbos i
 	local old_overlays new_overlays enabled_overlays=()
@@ -124,10 +145,17 @@ reset_overlays() {
 
 	# Save old enabled overlays
 	if [[ ${keep_active_enabled} == "true" ]]; then
-		while read -r overlay; do
-			keep_enabled+=("$(basename "${overlay}")")
-			echo "Enabled overlays = ${overlay}" >&2
-		done < <(find "${old_overlays}" -name "*.dtbo")
+		if [[ "$(get_boot_mode)" == "systemd-boot" ]]; then
+			while read -r overlay; do
+				keep_enabled+=("$(basename "${overlay}")")
+				echo "Enabled overlays = ${overlay}" >&2
+			done < <(systemd_boot_list_enabled "$old_overlays")
+		else
+			while read -r overlay; do
+				keep_enabled+=("$(basename "${overlay}")")
+				echo "Enabled overlays = ${overlay}" >&2
+			done < <(find "${old_overlays}" -name "*.dtbo")
+		fi
 	fi
 
 	if [[ -d "$old_overlays" ]]; then
@@ -176,6 +204,20 @@ reset_overlays() {
 		for i in "${keep_enabled[@]}"; do
 			if [[ -f "$new_overlays/${i}.disabled" ]]; then
 				mv -- "$new_overlays/${i}.disabled" "$new_overlays/$i"
+			fi
+		done
+	fi
+
+	if [[ "$(get_boot_mode)" == "systemd-boot" ]]; then
+		# On systemd-boot systems file presence is the enabled state (the
+		# devicetree-overlay line is derived from it), so disable every
+		# overlay that is not supposed to stay enabled. The kernel hook
+		# rewrites the entry line from this right after the reset.
+		for i in "$new_overlays"/*.dtbo; do
+			[[ -f "$i" ]] || continue
+			b="$(basename "$i")"
+			if [[ ",${keep_enabled[*]}," != *",$b,"* ]]; then
+				mv -- "$i" "$i.disabled"
 			fi
 		done
 	fi

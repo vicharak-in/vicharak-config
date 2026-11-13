@@ -1,6 +1,50 @@
 # shellcheck shell=bash
 
+# shellcheck source=src/usr/lib/vicharak-config/mod/systemd-boot.sh
+source "/usr/lib/vicharak-config/mod/systemd-boot.sh"
+
+__kernel_systemd_boot() {
+	local esp conf id version state current selected
+	esp="$(get_esp)"
+
+	current="$(get_systemd_boot_default_entry)"
+
+	radiolist_init
+	for conf in "$esp"/loader/entries/*.conf; do
+		[[ -f "$conf" ]] || continue
+		id="$(basename "$conf" .conf)"
+		version="$(awk '/^version/{print $2; exit}' "$conf")"
+		state="OFF"
+		[[ "$id" == "$current" ]] && state="ON"
+		radiolist_add "$id (Linux Kernel $version)" "$state"
+	done
+	radiolist_emptymsg "No systemd-boot entries found under $esp/loader/entries."
+
+	if ! radiolist_show "Please select the kernel to boot by default:"; then
+		return 1
+	fi
+	if ((${#VICHARAK_CONFIG_RADIOLIST_STATE_NEW[@]} == 0)); then
+		return 1
+	fi
+
+	selected="$(radiolist_getitem "${VICHARAK_CONFIG_RADIOLIST_STATE_NEW[0]}")"
+	selected="${selected%% *}"
+
+	if set_systemd_boot_default "$selected"; then
+		msgbox "$selected is selected and will boot by default on next boot."
+		return 0
+	else
+		msgbox "Unable to update the boot config."
+		return 1
+	fi
+}
+
 __kernel() {
+	if [[ "$(get_boot_mode)" == "systemd-boot" ]]; then
+		__kernel_systemd_boot
+		return
+	fi
+
 	local CONFIG_FILE="/boot/extlinux/extlinux.conf"
 	local UPDATE_FILE="/etc/default/u-boot"
 	local default_label

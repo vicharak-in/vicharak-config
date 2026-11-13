@@ -84,7 +84,7 @@ Are you sure? (yes/no)"; then
 		;;
 	esac
 
-	if u-boot-update >/dev/null; then
+	if update_boot_config >/dev/null; then
 		echo "Selected overlays will be enabled at next boot." >&2
 	else
 		echo "Unable to update the boot config." >&2
@@ -217,7 +217,7 @@ __overlay_manage() {
 		fi
 	done
 
-	if u-boot-update >/dev/null; then
+	if update_boot_config >/dev/null; then
 		echo Selected "overlays will be enabled at next boot." >&2
 	else
 		echo "Unable to update the boot config." >&2
@@ -270,7 +270,7 @@ Enter (yes/no) to continue.
 	fi
 
 	if reset_overlays "$(uname -r)" "$(get_soc_vendor)" "false"; then
-		if u-boot-update >/dev/null; then
+		if update_boot_config >/dev/null; then
 			echo "Overlays has been reset to current running kernel's default." >&2
 		fi
 	else
