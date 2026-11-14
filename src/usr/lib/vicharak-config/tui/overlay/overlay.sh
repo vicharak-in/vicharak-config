@@ -215,6 +215,32 @@ vaaman2_pins=(
 "GND"		"39"		"40"		"GND"
 )
 
+# Array representing pin mapping according to Axon Mini GPIO documentation format
+# shellcheck disable=SC2034
+axonmini_pins=(
+"Function"	"Pin#"		"Pin#"		"Function"
+"3.3v"		"1"		"2"		"5v"
+"GPIO_0"	"3"		"4"		"5v"
+"GPIO_1"	"5"		"6"		"GND"
+"GPIO_36"	"7"		"8"		"GPIO_50"
+"GND"  		"9"		"10"		"GPIO_51"
+"GPIO_37"	"11"		"12"		"GPIO_144"
+"GPIO_38"	"13"		"14"		"GND"
+"GPIO_39"	"15"		"16"		"GPIO_32"
+"3.3v"		"17"		"18"		"GPIO_33"
+"GPIO_57"	"19"		"20"		"GND"
+"GPIO_56"	"21"		"22"		"GPIO_46"
+"GPIO_58"	"23"		"24"		"GPIO_59"
+"GND"		"25"		"26"		"GPIO_62"
+"GPIO_40"	"27"		"28"		"GPIO_63"
+"GPIO_41"	"29"		"30"		"GND"
+"GPIO_42"	"31"		"32"		"GPIO_47"
+"GPIO_43"	"33"		"34"		"GND"
+"GPIO_45"	"35"		"36"		"GPIO_48"
+"GPIO_49"	"37"		"38"		"GPIO_146"
+"GND"		"39"		"40"		"GPIO_147"
+)
+
 # Purpose: Highlight the pins that are used for the selected overlay
 #	   Highlighted pins are wrapped with |* *| markers.
 # Parameters:
@@ -285,6 +311,8 @@ display_pinout(){
 
 	if echo "$compatible" | grep -qFx "vicharak,rk3399-vaaman"; then
 		all_pins="vaaman_pins"
+	elif echo "$compatible" | grep -qFx "vicharak,axon-mini"; then
+		all_pins="axonmini_pins"
 	elif echo "$compatible" | grep -qFx "vicharak,rk3588-axon"; then
 		all_pins="axon_pins"
 	elif echo "$compatible" | grep -qFx "vicharak,rk3576-axon-lite"; then
