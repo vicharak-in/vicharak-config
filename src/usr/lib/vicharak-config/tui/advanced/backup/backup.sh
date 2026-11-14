@@ -31,7 +31,7 @@ __backup_vicharak(){
 		}
 
 		# Error handler
-		# shellcheck disable=SC2317
+		# shellcheck disable=SC2317,SC2329
 		_on_error() {
 			echo "[ ERROR ] Backup failed. Cleaning up..."
 			_cleanup
