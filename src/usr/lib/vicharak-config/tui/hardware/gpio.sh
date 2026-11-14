@@ -24,6 +24,7 @@ __get_gpio_pin_count() {
 	fi
 
 	case "$compatible" in
+	*"vicharak,axon-mini"*)        echo 40 ;;
 	*"vicharak,rk3399-vaaman"*)    echo 40 ;;
 	*"vicharak,rk3576-axon-lite"*) echo 40 ;;
 	*"vicharak,rk3588-axon"*)      echo 30 ;;
