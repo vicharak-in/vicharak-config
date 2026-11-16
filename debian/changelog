@@ -1,3 +1,10 @@
+vicharak-config (0.2.00) jammy; urgency=medium
+
+  * Add support for systemd-boot
+  * Add support for axon-mini, compatibility & axon-mini Pin mapping
+
+ -- 092vk <vk092kumar@gmail.com>  Sat, 14 Nov 2026 14:16:48 +0530
+
 vicharak-config (0.1.22) jammy; urgency=medium
 
   * debian: postinst: compatibility for vaaman2 board
