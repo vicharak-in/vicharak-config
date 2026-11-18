@@ -16,3 +16,4 @@ override_dh_builddeb:
 override_dh_installsystemd:
 	dh_installsystemd --name=vicharak-config
 	dh_installsystemd --name=advanced-usb@
+	dh_installsystemd --no-enable --no-start --name=hotspot-trigger

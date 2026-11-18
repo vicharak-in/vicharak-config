@@ -1,0 +1,13 @@
+[Unit]
+Description=Hotspot and LED Toggle Service via Recovery Button
+After=NetworkManager.service
+Wants=NetworkManager.service
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/lib/vicharak-config/tui/comm/hotspot/hotspot_button.sh
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
